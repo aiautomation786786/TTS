@@ -66,6 +66,6 @@ echo "======================================================="
 echo ""
 echo "All requirements have been successfully installed."
 echo ""
-echo "To start the app, open Terminal in this folder and run:"
-echo "sh start_all.sh"
+echo "Starting the App..."
 echo ""
+sh start_all.sh

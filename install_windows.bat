@@ -83,6 +83,6 @@ echo =======================================================
 echo.
 echo All requirements have been successfully installed.
 echo.
-echo To start the app, just double-click: start_all.bat
+echo Starting the App...
 echo.
-pause
+call start_all.bat
