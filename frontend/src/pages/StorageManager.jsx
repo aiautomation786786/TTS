@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getStorageStats, clearStorage } from '../api/storage';
-import { HardDrive, Server, FileAudio, FolderSync, Trash2, Loader2, Database, AlertTriangle, CheckSquare, Square } from 'lucide-react';
+import { HardDrive, Server, FileAudio, Layers, Trash2, Loader2, Database, AlertCircle, CheckSquare, Square } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
 export const StorageManager = () => {
-    const [stats, setStats] = useState(null);
+    const [stats, setStats] = useState({});
     const [loading, setLoading] = useState(true);
     const [selectedCategories, setSelectedCategories] = useState(new Set());
     const [isClearing, setIsClearing] = useState(false);
@@ -65,7 +65,7 @@ export const StorageManager = () => {
             case 'history': return <Database className="text-indigo-400" size={28} />;
             case 'models': return <Server className="text-emerald-400" size={28} />;
             case 'uploads': return <FileAudio className="text-amber-400" size={28} />;
-            case 'temp': return <FolderSync className="text-rose-400" size={28} />;
+            case 'temp': return <Layers className="text-rose-400" size={28} />;
             default: return <HardDrive size={28} />;
         }
     };
@@ -178,7 +178,7 @@ export const StorageManager = () => {
                                     <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 to-rose-600"></div>
                                     <div className="flex items-center gap-5 mb-6">
                                         <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center flex-shrink-0 border border-red-500/20 shadow-inner">
-                                            <AlertTriangle className="text-red-500" size={32} />
+                                            <AlertCircle className="text-red-500" size={32} />
                                         </div>
                                         <div>
                                             <h3 className="text-2xl font-black text-white mb-1">Confirm Deletion</h3>
