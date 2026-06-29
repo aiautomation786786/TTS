@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
+echo "=============================================================="
+echo "[1/3] Checking for application updates from Git..."
+echo "=============================================================="
+git fetch origin >/dev/null 2>&1
+if git status -uno | grep -q 'behind'; then
+    echo "[i] Updates found! Downloading the latest version..."
+    git pull origin main
+    echo "[OK] Update applied successfully!"
+else
+    echo "[OK] Application is already up to date."
+fi
+echo ""
 echo "Starting AI Platform..."
 
 cd backend || exit

@@ -1,4 +1,18 @@
 @echo off
+title AI Platform
+echo ==============================================================
+echo [1/3] Checking for application updates from Git...
+echo ==============================================================
+git fetch origin >nul 2>&1
+git status -uno | findstr "behind" >nul
+if %ERRORLEVEL% EQU 0 (
+    echo [i] Updates found! Downloading the latest version...
+    git pull origin main
+    echo [OK] Update applied successfully!
+) else (
+    echo [OK] Application is already up to date.
+)
+echo.
 echo ==============================================================
 echo Cleaning up previous application sessions...
 echo ==============================================================
