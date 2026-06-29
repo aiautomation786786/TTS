@@ -172,7 +172,9 @@ def get_real_edge_voices():
         for line in out.splitlines():
             if not line.strip(): continue
             parts = line.split()
+            if not parts: continue
             voice_id = parts[0]
+            if voice_id == "Name": continue
             gender = "Male" if "Male" in line else "Female" if "Female" in line else "Unknown"
             
             locale = voice_id.split('-')[0] + "-" + voice_id.split('-')[1] if '-' in voice_id else voice_id
@@ -180,7 +182,11 @@ def get_real_edge_voices():
             
             language = CODE_TO_LANGUAGE.get(lang_prefix, lang_prefix.upper())
                 
-            name_part = voice_id.split('-')[-1].replace('Neural', '').replace('Multilingual', '')
+            name_part = voice_id.split('-')[-1].replace('Neural', '')
+            if name_part != 'Multilingual':
+                name_part = name_part.replace('Multilingual', '')
+            if not name_part:
+                name_part = "Unknown"
             
             if 'Multilingual' in voice_id and any(v['name'] == name_part for v in voices):
                 continue

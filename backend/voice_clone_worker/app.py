@@ -14,6 +14,9 @@ os.makedirs("uploads", exist_ok=True)
 os.makedirs("outputs", exist_ok=True)
 os.makedirs("models", exist_ok=True)
 
+# Auto-accept Coqui TOS to prevent EOFError during model download
+os.environ["COQUI_TOS_AGREED"] = "1"
+
 # Global states
 tts_engine = None
 model_loaded = False
