@@ -23,9 +23,9 @@ export const Topbar = () => {
     }, []);
 
     return (
-        <header className="h-16 bg-slate-900/50 backdrop-blur-md border-b border-slate-800 flex items-center justify-end px-6 sticky top-0 z-10">
+        <header className="h-16 bg-white/90 dark:bg-slate-900/50 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-end px-6 sticky top-0 z-10">
             {status === 'checking' && (
-                <div className="flex items-center gap-2 text-slate-400 bg-slate-500/10 px-3 py-1.5 rounded-full border border-slate-500/20 transition-all">
+                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400 bg-slate-500/10 px-3 py-1.5 rounded-full border border-slate-500/20 transition-all">
                     <Loader2 size={12} className="animate-spin" />
                     <span className="text-[11px] font-bold uppercase tracking-wider">Checking Status</span>
                 </div>

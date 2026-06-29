@@ -166,20 +166,20 @@ export const StorageManager = () => {
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/5 rounded-full mix-blend-screen filter blur-[150px] pointer-events-none"></div>
             
-            <header className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-slate-800 pb-6">
+            <header className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-slate-200 dark:border-slate-800 pb-6">
                 <div className="space-y-2">
                     <h1 className="text-4xl font-extrabold flex items-center gap-4 text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-200 to-slate-400 tracking-tight">
-                        <div className="p-3 bg-slate-900/50 rounded-2xl border border-slate-800 shadow-inner text-indigo-400">
+                        <div className="p-3 bg-white/90 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner text-indigo-400">
                             <HardDrive size={32} />
                         </div>
                         Storage Manager
                     </h1>
-                    <p className="text-slate-400 ml-1 font-medium text-lg">Reclaim space by safely clearing offline models and generated audio.</p>
+                    <p className="text-slate-600 dark:text-slate-400 ml-1 font-medium text-lg">Reclaim space by safely clearing offline models and generated audio.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="bg-slate-900 border border-slate-800 px-5 py-3 rounded-xl shadow-inner text-right">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Space Used</div>
-                        <div className="text-2xl font-bold text-white">{formatBytes(getTotalSize())}</div>
+                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-5 py-3 rounded-xl shadow-inner text-right">
+                        <div className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase tracking-widest mb-1">Total Space Used</div>
+                        <div className="text-2xl font-bold text-slate-900 dark:text-white">{formatBytes(getTotalSize())}</div>
                     </div>
                 </div>
             </header>
@@ -194,12 +194,12 @@ export const StorageManager = () => {
                                 {Object.entries(stats).map(([key, data]) => (
                                     <motion.div variants={item} key={key} whileHover={{ y: -4 }}>
                                         <Card 
-                                            className={`relative overflow-hidden cursor-pointer transition-all duration-300 border-2 border-slate-800/60 bg-slate-900/50 hover:border-indigo-500/50 hover:bg-slate-800/80 group`}
+                                            className={`relative overflow-hidden cursor-pointer transition-all duration-300 border-2 border-slate-200 dark:border-slate-800/60 bg-white/90 dark:bg-slate-900/50 hover:border-indigo-500/50 hover:bg-slate-100 dark:bg-slate-800/80 group`}
                                             onClick={() => openDrilldown(key)}
                                         >
                                             {/* Checkbox for Bulk Delete */}
                                             <div 
-                                                className="absolute top-4 right-4 text-slate-500 hover:text-indigo-400 transition-colors z-20"
+                                                className="absolute top-4 right-4 text-slate-500 dark:text-slate-500 hover:text-indigo-400 transition-colors z-20"
                                                 onClick={(e) => toggleCategory(e, key)}
                                                 title="Select entire category for deletion"
                                             >
@@ -207,17 +207,17 @@ export const StorageManager = () => {
                                             </div>
                                             
                                             <div className="flex items-start gap-4 mb-4 relative z-10">
-                                                <div className="p-3 rounded-xl border shadow-inner bg-slate-950 border-slate-800 group-hover:border-indigo-500/30 transition-colors">
+                                                <div className="p-3 rounded-xl border shadow-inner bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 group-hover:border-indigo-500/30 transition-colors">
                                                     {getIcon(key)}
                                                 </div>
                                                 <div>
-                                                    <h3 className="text-lg font-bold text-white mb-1 group-hover:text-indigo-300 transition-colors">{data.label}</h3>
-                                                    <p className="text-sm text-slate-400">{data.desc}</p>
+                                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-indigo-300 transition-colors">{data.label}</h3>
+                                                    <p className="text-sm text-slate-600 dark:text-slate-400">{data.desc}</p>
                                                 </div>
                                             </div>
-                                            <div className="flex justify-between items-end mt-6 pt-4 border-t border-slate-800/60 relative z-10">
-                                                <div className="text-xs font-medium text-slate-500 uppercase tracking-wider">{data.file_count} files</div>
-                                                <div className="text-2xl font-black tracking-tight text-white">{formatBytes(data.size_bytes)}</div>
+                                            <div className="flex justify-between items-end mt-6 pt-4 border-t border-slate-200 dark:border-slate-800/60 relative z-10">
+                                                <div className="text-xs font-medium text-slate-500 dark:text-slate-500 uppercase tracking-wider">{data.file_count} files</div>
+                                                <div className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">{formatBytes(data.size_bytes)}</div>
                                             </div>
                                             
                                             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-indigo-500/0 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
@@ -233,20 +233,20 @@ export const StorageManager = () => {
                                         initial={{ opacity: 0, y: 30 }} 
                                         animate={{ opacity: 1, y: 0 }} 
                                         exit={{ opacity: 0, y: 30 }} 
-                                        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 backdrop-blur-xl border-2 border-indigo-500/50 p-4 rounded-2xl shadow-[0_20px_50px_-10px_rgba(79,70,229,0.4)] flex items-center justify-between gap-6 w-[90%] max-w-2xl"
+                                        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl border-2 border-indigo-500/50 p-4 rounded-2xl shadow-[0_20px_50px_-10px_rgba(79,70,229,0.4)] flex items-center justify-between gap-6 w-[90%] max-w-2xl"
                                     >
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold border border-indigo-500/30">
                                                 {selectedCategories.size}
                                             </div>
                                             <div>
-                                                <div className="text-sm font-bold text-slate-300">Categories selected</div>
-                                                <div className="text-lg font-black text-white">{formatBytes(getSelectedSize())}</div>
+                                                <div className="text-sm font-bold text-slate-700 dark:text-slate-300">Categories selected</div>
+                                                <div className="text-lg font-black text-slate-900 dark:text-white">{formatBytes(getSelectedSize())}</div>
                                             </div>
                                         </div>
                                         <Button 
                                             onClick={() => setShowConfirm(true)} 
-                                            className="bg-red-600 hover:bg-red-500 text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] px-6 py-6 text-lg rounded-xl flex items-center gap-2"
+                                            className="bg-red-600 hover:bg-red-500 text-slate-900 dark:text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] px-6 py-6 text-lg rounded-xl flex items-center gap-2"
                                         >
                                             <Trash2 size={20} /> Clear Entire Categories
                                         </Button>
@@ -257,28 +257,28 @@ export const StorageManager = () => {
                     ) : (
                         <motion.div key="drilldown" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
                             <div className="flex items-center justify-between">
-                                <Button variant="secondary" onClick={() => setActiveCategory(null)} className="flex items-center gap-2 text-slate-300 hover:text-white">
+                                <Button variant="secondary" onClick={() => setActiveCategory(null)} className="flex items-center gap-2 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white">
                                     <ChevronLeft size={18} /> Back to Overview
                                 </Button>
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-slate-800 rounded-lg border border-slate-700">
+                                    <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-300 dark:border-slate-700">
                                         {getIcon(activeCategory)}
                                     </div>
-                                    <h2 className="text-2xl font-bold text-white">{stats[activeCategory]?.label} Details</h2>
+                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{stats[activeCategory]?.label} Details</h2>
                                 </div>
                             </div>
                             
-                            <Card className="p-0 overflow-hidden border-slate-800">
-                                <div className="p-4 border-b border-slate-800 bg-slate-900/50 flex justify-between items-center">
+                            <Card className="p-0 overflow-hidden border-slate-200 dark:border-slate-800">
+                                <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/50 flex justify-between items-center">
                                     <div className="flex items-center gap-3">
                                         <button 
                                             onClick={toggleAllFiles}
                                             disabled={categoryFiles.length === 0}
-                                            className="text-slate-400 hover:text-indigo-400 transition-colors disabled:opacity-50"
+                                            className="text-slate-600 dark:text-slate-400 hover:text-indigo-400 transition-colors disabled:opacity-50"
                                         >
                                             {selectedFiles.size > 0 && selectedFiles.size === categoryFiles.length ? <CheckSquare size={20} className="text-indigo-500" /> : <Square size={20} />}
                                         </button>
-                                        <span className="text-sm font-medium text-slate-300">
+                                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                                             {categoryFiles.length} files total ({formatBytes(stats[activeCategory]?.size_bytes)})
                                         </span>
                                     </div>
@@ -288,7 +288,7 @@ export const StorageManager = () => {
                                     {filesLoading ? (
                                         <div className="flex justify-center items-center py-20"><Loader2 className="animate-spin text-indigo-500" size={32} /></div>
                                     ) : categoryFiles.length === 0 ? (
-                                        <div className="text-center py-20 text-slate-500">
+                                        <div className="text-center py-20 text-slate-500 dark:text-slate-500">
                                             <File className="mx-auto mb-3 opacity-50" size={48} />
                                             <p>This category is empty.</p>
                                         </div>
@@ -298,26 +298,26 @@ export const StorageManager = () => {
                                                 <div 
                                                     key={file.id} 
                                                     onClick={() => toggleFile(file.id)}
-                                                    className={`flex items-center justify-between p-4 hover:bg-slate-800/30 cursor-pointer transition-colors ${selectedFiles.has(file.id) ? 'bg-indigo-900/10' : ''}`}
+                                                    className={`flex items-center justify-between p-4 hover:bg-slate-100 dark:bg-slate-800/30 cursor-pointer transition-colors ${selectedFiles.has(file.id) ? 'bg-indigo-900/10' : ''}`}
                                                 >
                                                     <div className="flex items-center gap-4">
-                                                        <div className="text-slate-500">
+                                                        <div className="text-slate-500 dark:text-slate-500">
                                                             {selectedFiles.has(file.id) ? <CheckSquare size={18} className="text-indigo-500" /> : <Square size={18} />}
                                                         </div>
                                                         <div className="flex items-center gap-3">
-                                                            <File size={16} className="text-slate-500" />
+                                                            <File size={16} className="text-slate-500 dark:text-slate-500" />
                                                             <div>
                                                                 <div className="text-sm font-medium text-slate-200">{file.name}</div>
-                                                                <div className="text-xs text-slate-500 font-mono mt-0.5">{file.id}</div>
+                                                                <div className="text-xs text-slate-500 dark:text-slate-500 font-mono mt-0.5">{file.id}</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center gap-6">
-                                                        <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                                                        <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400">
                                                             <Calendar size={12} />
                                                             {new Date(file.modified_at * 1000).toLocaleDateString()}
                                                         </div>
-                                                        <div className="text-sm font-bold text-slate-300 w-20 text-right">
+                                                        <div className="text-sm font-bold text-slate-700 dark:text-slate-300 w-20 text-right">
                                                             {formatBytes(file.size_bytes)}
                                                         </div>
                                                     </div>
@@ -335,20 +335,20 @@ export const StorageManager = () => {
                                         initial={{ opacity: 0, y: 30 }} 
                                         animate={{ opacity: 1, y: 0 }} 
                                         exit={{ opacity: 0, y: 30 }} 
-                                        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 backdrop-blur-xl border-2 border-indigo-500/50 p-4 rounded-2xl shadow-[0_20px_50px_-10px_rgba(79,70,229,0.4)] flex items-center justify-between gap-6 w-[90%] max-w-2xl"
+                                        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl border-2 border-indigo-500/50 p-4 rounded-2xl shadow-[0_20px_50px_-10px_rgba(79,70,229,0.4)] flex items-center justify-between gap-6 w-[90%] max-w-2xl"
                                     >
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold border border-indigo-500/30">
                                                 {selectedFiles.size}
                                             </div>
                                             <div>
-                                                <div className="text-sm font-bold text-slate-300">Files selected</div>
-                                                <div className="text-lg font-black text-white">{formatBytes(getSelectedFilesSize())}</div>
+                                                <div className="text-sm font-bold text-slate-700 dark:text-slate-300">Files selected</div>
+                                                <div className="text-lg font-black text-slate-900 dark:text-white">{formatBytes(getSelectedFilesSize())}</div>
                                             </div>
                                         </div>
                                         <Button 
                                             onClick={() => setShowFileConfirm(true)} 
-                                            className="bg-red-600 hover:bg-red-500 text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] px-6 py-6 text-lg rounded-xl flex items-center gap-2"
+                                            className="bg-red-600 hover:bg-red-500 text-slate-900 dark:text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] px-6 py-6 text-lg rounded-xl flex items-center gap-2"
                                         >
                                             <Trash2 size={20} /> Delete Selected Files
                                         </Button>
@@ -364,24 +364,24 @@ export const StorageManager = () => {
             <AnimatePresence>
                 {showConfirm && (
                     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-lg w-full shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden">
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-3xl p-8 max-w-lg w-full shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 to-rose-600"></div>
                             <div className="flex items-center gap-5 mb-6">
                                 <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center flex-shrink-0 border border-red-500/20 shadow-inner">
                                     <AlertCircle className="text-red-500" size={32} />
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-black text-white mb-1">Wipe Entire Categories</h3>
-                                    <p className="text-slate-400 text-sm leading-relaxed">You are about to permanently wipe <strong className="text-white">{formatBytes(getSelectedSize())}</strong> of data. This action cannot be undone.</p>
+                                    <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-1">Wipe Entire Categories</h3>
+                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">You are about to permanently wipe <strong className="text-slate-900 dark:text-white">{formatBytes(getSelectedSize())}</strong> of data. This action cannot be undone.</p>
                                 </div>
                             </div>
                             
-                            <div className="bg-slate-950 rounded-xl p-4 border border-slate-800 mb-8 max-h-[200px] overflow-y-auto">
-                                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Categories to be destroyed:</h4>
+                            <div className="bg-slate-50 dark:bg-slate-950 rounded-xl p-4 border border-slate-200 dark:border-slate-800 mb-8 max-h-[200px] overflow-y-auto">
+                                <h4 className="text-xs font-bold text-slate-500 dark:text-slate-500 uppercase tracking-widest mb-3">Categories to be destroyed:</h4>
                                 <ul className="space-y-2">
                                     {Array.from(selectedCategories).map(key => (
                                         <li key={key} className="flex justify-between items-center text-sm">
-                                            <span className="text-slate-300 font-medium">{stats[key]?.label}</span>
+                                            <span className="text-slate-700 dark:text-slate-300 font-medium">{stats[key]?.label}</span>
                                             <span className="text-red-400 font-mono">{formatBytes(stats[key]?.size_bytes)}</span>
                                         </li>
                                     ))}
@@ -389,8 +389,8 @@ export const StorageManager = () => {
                             </div>
 
                             <div className="flex justify-end gap-3">
-                                <Button variant="secondary" onClick={() => setShowConfirm(false)} disabled={isClearing} className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700">Cancel</Button>
-                                <Button onClick={handleClear} disabled={isClearing} className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] flex items-center gap-2">
+                                <Button variant="secondary" onClick={() => setShowConfirm(false)} disabled={isClearing} className="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700">Cancel</Button>
+                                <Button onClick={handleClear} disabled={isClearing} className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-slate-900 dark:text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] flex items-center gap-2">
                                     {isClearing ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
                                     {isClearing ? 'Erasing...' : 'Yes, Delete Categories'}
                                 </Button>
@@ -404,38 +404,38 @@ export const StorageManager = () => {
             <AnimatePresence>
                 {showFileConfirm && (
                     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-lg w-full shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden">
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-3xl p-8 max-w-lg w-full shadow-[0_30px_100px_rgba(0,0,0,0.8)] relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-red-500 to-rose-600"></div>
                             <div className="flex items-center gap-5 mb-6">
                                 <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center flex-shrink-0 border border-red-500/20 shadow-inner">
                                     <File className="text-red-500" size={32} />
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-black text-white mb-1">Delete Files</h3>
-                                    <p className="text-slate-400 text-sm leading-relaxed">You are about to delete {selectedFiles.size} file(s) freeing up <strong className="text-white">{formatBytes(getSelectedFilesSize())}</strong>. This is permanent.</p>
+                                    <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-1">Delete Files</h3>
+                                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">You are about to delete {selectedFiles.size} file(s) freeing up <strong className="text-slate-900 dark:text-white">{formatBytes(getSelectedFilesSize())}</strong>. This is permanent.</p>
                                 </div>
                             </div>
                             
-                            <div className="bg-slate-950 rounded-xl p-4 border border-slate-800 mb-8 max-h-[150px] overflow-y-auto custom-scrollbar">
+                            <div className="bg-slate-50 dark:bg-slate-950 rounded-xl p-4 border border-slate-200 dark:border-slate-800 mb-8 max-h-[150px] overflow-y-auto custom-scrollbar">
                                 <ul className="space-y-2">
                                     {Array.from(selectedFiles).slice(0, 50).map(id => {
                                         const file = categoryFiles.find(f => f.id === id);
                                         return (
                                             <li key={id} className="flex justify-between items-center text-xs">
-                                                <span className="text-slate-300 truncate pr-4">{file?.name}</span>
+                                                <span className="text-slate-700 dark:text-slate-300 truncate pr-4">{file?.name}</span>
                                                 <span className="text-red-400 font-mono whitespace-nowrap">{formatBytes(file?.size_bytes)}</span>
                                             </li>
                                         )
                                     })}
                                     {selectedFiles.size > 50 && (
-                                        <li className="text-xs text-slate-500 italic pt-2 border-t border-slate-800">...and {selectedFiles.size - 50} more files</li>
+                                        <li className="text-xs text-slate-500 dark:text-slate-500 italic pt-2 border-t border-slate-200 dark:border-slate-800">...and {selectedFiles.size - 50} more files</li>
                                     )}
                                 </ul>
                             </div>
 
                             <div className="flex justify-end gap-3">
-                                <Button variant="secondary" onClick={() => setShowFileConfirm(false)} disabled={isClearing} className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700">Cancel</Button>
-                                <Button onClick={handleClearFiles} disabled={isClearing} className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] flex items-center gap-2">
+                                <Button variant="secondary" onClick={() => setShowFileConfirm(false)} disabled={isClearing} className="px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700">Cancel</Button>
+                                <Button onClick={handleClearFiles} disabled={isClearing} className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-slate-900 dark:text-white shadow-[0_0_20px_rgba(220,38,38,0.4)] flex items-center gap-2">
                                     {isClearing ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
                                     {isClearing ? 'Deleting...' : 'Yes, Delete Files'}
                                 </Button>

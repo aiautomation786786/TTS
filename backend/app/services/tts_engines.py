@@ -225,11 +225,8 @@ class CoquiTTSEngine(TTSEngine):
         try:
             import TTS
             import torch
-            from TTS.utils.manage import ModelManager
-            manager = ModelManager()
-            model_path, _, _ = manager.download_model(self.model_name)
-            return bool(model_path and os.path.exists(model_path))
-        except Exception:
+            return True
+        except ImportError:
             return False
             
     def get_engine_info(self) -> dict:

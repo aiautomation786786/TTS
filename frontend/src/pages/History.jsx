@@ -153,18 +153,18 @@ export const History = () => {
             <header className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-white/5 pb-6">
                 <div className="space-y-2">
                     <h1 className="text-3xl font-bold flex items-center gap-3 text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400 tracking-tight">
-                        <div className="p-2 bg-white/5 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)] text-white">
+                        <div className="p-2 bg-white/5 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)] text-slate-900 dark:text-white">
                             <Clock size={24} />
                         </div>
                         Audio History
                     </h1>
-                    <p className="text-slate-400 ml-1">Review, download, and manage your synthesized speech assets.</p>
+                    <p className="text-slate-600 dark:text-slate-400 ml-1">Review, download, and manage your synthesized speech assets.</p>
                 </div>
                 
                 <div className="flex items-center gap-3 bg-black/20 p-1.5 rounded-xl border border-white/5 shadow-inner">
                     <button 
                         onClick={toggleSelectAll} 
-                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${selectedItems.size > 0 ? 'bg-indigo-600 text-white shadow-[0_0_15px_rgba(79,70,229,0.3)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${selectedItems.size > 0 ? 'bg-indigo-600 text-slate-900 dark:text-white shadow-[0_0_15px_rgba(79,70,229,0.3)]' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-white/5'}`}
                     >
                         {selectedItems.size === history.length && history.length > 0 ? <CheckSquare size={16} /> : <Square size={16} />} 
                         <span className="hidden sm:inline">{selectedItems.size === history.length && history.length > 0 ? 'Deselect All' : 'Select All'}</span>
@@ -172,12 +172,12 @@ export const History = () => {
                     <div className="w-px h-6 bg-white/10 mx-1"></div>
                     <button 
                         onClick={() => setShowFavorites(!showFavorites)} 
-                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${showFavorites ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-[0_0_15px_rgba(236,72,153,0.3)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${showFavorites ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-slate-900 dark:text-white shadow-[0_0_15px_rgba(236,72,153,0.3)]' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-white/5'}`}
                     >
                         <Heart size={16} className={showFavorites ? "fill-white" : ""} /> <span className="hidden sm:inline">Favorites</span>
                     </button>
                     {(mode) && (
-                        <button onClick={clearFilters} className="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-2">
+                        <button onClick={clearFilters} className="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-white/5 flex items-center gap-2">
                             <Filter size={16} /> <span className="hidden sm:inline">Clear Filters</span>
                         </button>
                     )}
@@ -187,16 +187,16 @@ export const History = () => {
             {/* Bulk Action Bar */}
             <AnimatePresence>
             {selectedItems.size > 0 && (
-                <motion.div initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -20, scale: 0.95 }} className="sticky top-4 z-50 bg-slate-800/95 backdrop-blur-xl border border-indigo-500/50 p-2 sm:p-3 rounded-2xl shadow-[0_15px_40px_-10px_rgba(79,70,229,0.4)] flex flex-wrap items-center justify-between gap-3">
+                <motion.div initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -20, scale: 0.95 }} className="sticky top-4 z-50 bg-slate-100 dark:bg-slate-800/95 backdrop-blur-xl border border-indigo-500/50 p-2 sm:p-3 rounded-2xl shadow-[0_15px_40px_-10px_rgba(79,70,229,0.4)] flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3 px-2">
                         <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 font-bold border border-indigo-500/30">{selectedItems.size}</div>
-                        <span className="text-white font-medium text-sm sm:text-base">items selected</span>
+                        <span className="text-slate-900 dark:text-white font-medium text-sm sm:text-base">items selected</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         <Button variant="secondary" onClick={() => handleBulkFavorite(true)} className="bg-slate-700 hover:bg-slate-600 border-slate-600 h-9 px-3 text-xs sm:text-sm"><Heart size={14} className="mr-1.5" /> <span className="hidden sm:inline">Favorite</span></Button>
                         <Button variant="secondary" onClick={() => handleBulkFavorite(false)} className="bg-slate-700 hover:bg-slate-600 border-slate-600 h-9 px-3 text-xs sm:text-sm"><X size={14} className="mr-1.5" /> <span className="hidden sm:inline">Unfavorite</span></Button>
                         <Button onClick={handleBulkDeleteClick} className="bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 h-9 px-3 text-xs sm:text-sm"><Trash2 size={14} className="mr-1.5" /> <span className="hidden sm:inline">Delete Selected</span></Button>
-                        <button onClick={() => setSelectedItems(new Set())} className="text-slate-400 hover:text-white h-9 px-2 ml-1 transition-colors"><X size={18} /></button>
+                        <button onClick={() => setSelectedItems(new Set())} className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white h-9 px-2 ml-1 transition-colors"><X size={18} /></button>
                     </div>
                 </motion.div>
             )}
@@ -211,17 +211,17 @@ export const History = () => {
             {loading ? (
                 <div className="flex flex-col items-center justify-center py-24 space-y-4">
                     <RefreshCw className="animate-spin text-indigo-500" size={32} />
-                    <p className="text-slate-400 font-medium">Loading temporal archives...</p>
+                    <p className="text-slate-600 dark:text-slate-400 font-medium">Loading temporal archives...</p>
                 </div>
             ) : (history || []).length === 0 ? (
                 <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="relative z-10">
-                    <Card className="flex flex-col items-center justify-center py-24 text-slate-400 bg-white/[0.02] border-white/10 backdrop-blur-md rounded-2xl shadow-xl">
+                    <Card className="flex flex-col items-center justify-center py-24 text-slate-600 dark:text-slate-400 bg-white/[0.02] border-white/10 backdrop-blur-md rounded-2xl shadow-xl">
                         <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-4 border border-white/5 shadow-inner">
                             <Clock size={32} className="opacity-50" />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-300 mb-2">No History Found</h3>
+                        <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300 mb-2">No History Found</h3>
                         <p className="text-sm">You haven't generated any audio matching these filters yet.</p>
-                        {showFavorites && <Button className="mt-6 border-white/10 text-white hover:bg-white/10" variant="outline" onClick={clearFilters}>View All History</Button>}
+                        {showFavorites && <Button className="mt-6 border-white/10 text-slate-900 dark:text-white hover:bg-white/10" variant="outline" onClick={clearFilters}>View All History</Button>}
                     </Card>
                 </motion.div>
             ) : (
@@ -233,18 +233,18 @@ export const History = () => {
                                 {/* Top Bar */}
                                 <div className="px-5 py-4 border-b border-white/5 flex justify-between items-center bg-black/20">
                                     <div className="flex items-center gap-3">
-                                        <button onClick={() => toggleSelection(gen.id)} className={`transition-all ${selectedItems.has(gen.id) ? 'text-indigo-500 hover:text-indigo-400 scale-110' : 'text-slate-500 hover:text-indigo-400'}`}>
+                                        <button onClick={() => toggleSelection(gen.id)} className={`transition-all ${selectedItems.has(gen.id) ? 'text-indigo-500 hover:text-indigo-400 scale-110' : 'text-slate-500 dark:text-slate-500 hover:text-indigo-400'}`}>
                                             {selectedItems.has(gen.id) ? <CheckSquare size={18} /> : <Square size={18} />}
                                         </button>
                                         <button 
                                             onClick={() => handleToggleFavorite(gen.id, gen.is_favorite)}
-                                            className="text-slate-500 hover:text-pink-500 hover:scale-110 transition-all"
+                                            className="text-slate-500 dark:text-slate-500 hover:text-pink-500 hover:scale-110 transition-all"
                                         >
                                             <Heart size={18} className={gen.is_favorite ? "fill-pink-500 text-pink-500" : ""} />
                                         </button>
                                         <div className="flex flex-col">
-                                            <span className="font-bold text-white tracking-wide group-hover:text-indigo-300 transition-colors">{gen.voice_name}</span>
-                                            <span className="text-[10px] text-slate-500 flex items-center gap-1 font-mono uppercase tracking-wider"><Calendar size={10}/> {formatDate(gen.created_at)}</span>
+                                            <span className="font-bold text-slate-900 dark:text-white tracking-wide group-hover:text-indigo-300 transition-colors">{gen.voice_name}</span>
+                                            <span className="text-[10px] text-slate-500 dark:text-slate-500 flex items-center gap-1 font-mono uppercase tracking-wider"><Calendar size={10}/> {formatDate(gen.created_at)}</span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -259,48 +259,48 @@ export const History = () => {
                                 {/* Content Body */}
                                 <div className="p-5 flex-1 flex flex-col space-y-4">
                                     <div className="relative">
-                                        <div className="absolute -left-2 text-3xl text-white/5 font-serif top-0">"</div>
-                                        <p className="text-sm text-slate-300 line-clamp-3 leading-relaxed relative z-10 px-2 italic">
+                                        <div className="absolute -left-2 text-3xl text-slate-900 dark:text-white/5 font-serif top-0">"</div>
+                                        <p className="text-sm text-slate-700 dark:text-slate-300 line-clamp-3 leading-relaxed relative z-10 px-2 italic">
                                             {gen.text}
                                         </p>
                                     </div>
                                     
                                     <div className="flex flex-wrap gap-4 mt-auto pt-4 border-t border-white/5">
                                         {gen.generation_time_seconds && (
-                                            <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-white/5 px-2.5 py-1 rounded border border-white/5">
-                                                <RefreshCw size={12} className="text-slate-500" /> Gen: <span className="font-mono text-slate-300">{formatTime(gen.generation_time_seconds)}</span>
+                                            <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-white/5 px-2.5 py-1 rounded border border-white/5">
+                                                <RefreshCw size={12} className="text-slate-500 dark:text-slate-500" /> Gen: <span className="font-mono text-slate-700 dark:text-slate-300">{formatTime(gen.generation_time_seconds)}</span>
                                             </div>
                                         )}
                                         {gen.audio_duration && (
-                                            <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-white/5 px-2.5 py-1 rounded border border-white/5">
-                                                <PlayCircle size={12} className="text-slate-500" /> Len: <span className="font-mono text-slate-300">{formatTime(gen.audio_duration)}</span>
+                                            <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-white/5 px-2.5 py-1 rounded border border-white/5">
+                                                <PlayCircle size={12} className="text-slate-500 dark:text-slate-500" /> Len: <span className="font-mono text-slate-700 dark:text-slate-300">{formatTime(gen.audio_duration)}</span>
                                             </div>
                                         )}
                                         {gen.file_size && (
-                                            <div className="flex items-center gap-1.5 text-xs text-slate-400 bg-white/5 px-2.5 py-1 rounded border border-white/5">
-                                                <HardDrive size={12} className="text-slate-500" /> Size: <span className="font-mono text-slate-300">{(gen.file_size / 1024).toFixed(1)} KB</span>
+                                            <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-white/5 px-2.5 py-1 rounded border border-white/5">
+                                                <HardDrive size={12} className="text-slate-500 dark:text-slate-500" /> Size: <span className="font-mono text-slate-700 dark:text-slate-300">{(gen.file_size / 1024).toFixed(1)} KB</span>
                                             </div>
                                         )}
                                     </div>
                                 </div>
 
                                 {/* Bottom Player/Controls */}
-                                <div className="px-5 py-4 bg-black/40 border-t border-white/5 flex flex-col sm:flex-row items-center gap-4">
+                                <div className="px-5 py-4 bg-slate-100 dark:bg-black/40 border-t border-white/5 flex flex-col sm:flex-row items-center gap-4">
                                     {gen.status === 'completed' && gen.audio_url ? (
                                         <>
                                             <div className="flex-1 w-full bg-white/5 rounded-lg p-1 border border-white/10 shadow-inner">
                                                 <audio controls src={`http://localhost:8000${gen.audio_url}`} className="h-9 w-full outline-none invert opacity-90 sepia-[20%] hue-rotate-[180deg]"></audio>
                                             </div>
                                             <div className="flex gap-2">
-                                                <a href={`http://localhost:8000/api/history/${gen.id}/download?format=mp3`} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-indigo-500 hover:text-white border border-white/10 hover:border-indigo-400 text-slate-400 rounded-lg transition-all shadow-sm" title="Download MP3">
+                                                <a href={`http://localhost:8000/api/history/${gen.id}/download?format=mp3`} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-indigo-500 hover:text-slate-900 dark:text-white border border-white/10 hover:border-indigo-400 text-slate-600 dark:text-slate-400 rounded-lg transition-all shadow-sm" title="Download MP3">
                                                     <Download size={16} />
                                                 </a>
-                                                <a href={`http://localhost:8000/api/history/${gen.id}/download?format=wav`} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-purple-500 hover:text-white border border-white/10 hover:border-purple-400 text-slate-400 rounded-lg transition-all shadow-sm" title="Download WAV">
+                                                <a href={`http://localhost:8000/api/history/${gen.id}/download?format=wav`} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-purple-500 hover:text-slate-900 dark:text-white border border-white/10 hover:border-purple-400 text-slate-600 dark:text-slate-400 rounded-lg transition-all shadow-sm" title="Download WAV">
                                                     <Download size={16} />
                                                 </a>
                                                 <button 
                                                     onClick={() => handleDeleteClick(gen.id)}
-                                                    className="p-2.5 bg-slate-800/80 hover:bg-red-500/20 text-slate-400 hover:text-red-400 rounded-xl transition-all border border-slate-700 hover:border-red-500/50 shadow-sm group"
+                                                    className="p-2.5 bg-slate-100 dark:bg-slate-800/80 hover:bg-red-500/20 text-slate-600 dark:text-slate-400 hover:text-red-400 rounded-xl transition-all border border-slate-300 dark:border-slate-700 hover:border-red-500/50 shadow-sm group"
                                                     title="Delete"
                                                 >
                                                     <Trash2 size={16} className="group-hover:scale-110 transition-transform" />
@@ -320,11 +320,11 @@ export const History = () => {
                                             </div>
                                             <div className="flex gap-2">
                                                 {gen.status === 'failed' && (
-                                                    <button onClick={() => handleRetry(gen.id)} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-blue-500 hover:text-white border border-white/10 hover:border-blue-400 text-slate-400 rounded-lg transition-all shadow-sm" title="Retry">
+                                                    <button onClick={() => handleRetry(gen.id)} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-blue-500 hover:text-slate-900 dark:text-white border border-white/10 hover:border-blue-400 text-slate-600 dark:text-slate-400 rounded-lg transition-all shadow-sm" title="Retry">
                                                         <RefreshCw size={16} />
                                                     </button>
                                                 )}
-                                                <button onClick={() => handleDeleteClick(gen.id)} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-red-500 hover:text-white border border-white/10 hover:border-red-400 text-slate-400 rounded-lg transition-all shadow-sm" title="Delete">
+                                                <button onClick={() => handleDeleteClick(gen.id)} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-red-500 hover:text-slate-900 dark:text-white border border-white/10 hover:border-red-400 text-slate-600 dark:text-slate-400 rounded-lg transition-all shadow-sm" title="Delete">
                                                     <Trash2 size={16} />
                                                 </button>
                                             </div>
@@ -343,8 +343,8 @@ export const History = () => {
                                         </div>
                                         {gen.failed_chunk_text_preview && (
                                             <>
-                                                <div className="font-bold text-[10px] text-slate-500 mt-2 mb-1 uppercase tracking-wider">Chunk Text Preview</div>
-                                                <div className="p-2 bg-black/60 rounded border border-white/5 text-slate-400 break-words text-[10px] leading-relaxed italic">
+                                                <div className="font-bold text-[10px] text-slate-500 dark:text-slate-500 mt-2 mb-1 uppercase tracking-wider">Chunk Text Preview</div>
+                                                <div className="p-2 bg-black/60 rounded border border-white/5 text-slate-600 dark:text-slate-400 break-words text-[10px] leading-relaxed italic">
                                                     {gen.failed_chunk_text_preview}
                                                 </div>
                                             </>
@@ -370,20 +370,20 @@ export const History = () => {
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                            className="bg-slate-900 border border-slate-700/60 rounded-2xl p-6 max-w-md w-full shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]"
+                            className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700/60 rounded-2xl p-6 max-w-md w-full shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]"
                         >
                             <div className="flex items-center gap-4 mb-4">
                                 <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0 border border-red-500/20">
                                     <Trash2 className="text-red-400" size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-white mb-1">Delete {itemsToDelete.length > 1 ? `${itemsToDelete.length} Generations` : 'Generation'}</h3>
-                                    <p className="text-slate-400 text-sm">Are you sure you want to permanently delete {itemsToDelete.length > 1 ? `these ${itemsToDelete.length} items` : 'this audio'}? This action cannot be undone.</p>
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Delete {itemsToDelete.length > 1 ? `${itemsToDelete.length} Generations` : 'Generation'}</h3>
+                                    <p className="text-slate-600 dark:text-slate-400 text-sm">Are you sure you want to permanently delete {itemsToDelete.length > 1 ? `these ${itemsToDelete.length} items` : 'this audio'}? This action cannot be undone.</p>
                                 </div>
                             </div>
                             <div className="flex justify-end gap-3 mt-6">
                                 <Button variant="secondary" onClick={cancelDelete} className="px-5">Cancel</Button>
-                                <Button onClick={confirmDelete} className="px-5 bg-red-500 hover:bg-red-600 text-white border-red-600 shadow-[0_0_15px_rgba(239,68,68,0.3)]">Yes, Delete</Button>
+                                <Button onClick={confirmDelete} className="px-5 bg-red-500 hover:bg-red-600 text-slate-900 dark:text-white border-red-600 shadow-[0_0_15px_rgba(239,68,68,0.3)]">Yes, Delete</Button>
                             </div>
                         </motion.div>
                     </motion.div>

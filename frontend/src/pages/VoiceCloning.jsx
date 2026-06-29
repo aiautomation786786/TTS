@@ -271,7 +271,7 @@ export const VoiceCloning = () => {
                     </div>
                     Voice Cloning Studio
                 </h1>
-                <p className="text-slate-400 text-sm ml-1 max-w-2xl leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-400 text-sm ml-1 max-w-2xl leading-relaxed">
                     Instantly clone any voice with just a 5-second audio sample using our state-of-the-art XTTS neural engine.
                 </p>
             </header>
@@ -284,11 +284,11 @@ export const VoiceCloning = () => {
                     </div>
                     <div className="space-y-3 flex-1">
                         <h3 className="text-lg font-bold text-red-400 tracking-wide">Cloning Engine Offline</h3>
-                        <p className="text-slate-300 text-sm leading-relaxed">
+                        <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
                             {engineStatus?.message || "The neural cloning microservice is currently sleeping or disconnected."}
                         </p>
-                        <div className="bg-black/40 border border-white/5 p-4 rounded-lg">
-                            <p className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">Required Action</p>
+                        <div className="bg-slate-100 dark:bg-black/40 border border-white/5 p-4 rounded-lg">
+                            <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wider">Required Action</p>
                             <div className="flex items-center gap-3">
                                 <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
                                 <code className="font-mono text-xs text-green-400 select-all">backend\scripts\run_coqui_worker.bat</code>
@@ -313,7 +313,7 @@ export const VoiceCloning = () => {
                         <Card className="p-6 border-white/10 bg-white/[0.02] backdrop-blur-2xl shadow-xl rounded-2xl relative overflow-hidden group hover:border-white/20 transition-all duration-300">
                             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             
-                            <h2 className="text-lg font-bold mb-5 flex items-center gap-2 text-white tracking-wide">
+                            <h2 className="text-lg font-bold mb-5 flex items-center gap-2 text-slate-900 dark:text-white tracking-wide">
                                 <div className="p-1.5 bg-indigo-500/20 rounded-md text-indigo-400">
                                     <UploadCloud size={18} />
                                 </div>
@@ -322,12 +322,12 @@ export const VoiceCloning = () => {
                             
                             <div className="space-y-5 relative">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex justify-between">
+                                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex justify-between">
                                         Voice Target Name
                                     </label>
                                     <input 
                                         type="text" 
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500 focus:bg-white/5 focus:ring-1 focus:ring-indigo-500/20 transition-all placeholder:text-slate-600"
+                                        className="w-full bg-slate-100 dark:bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-indigo-500 focus:bg-white/5 focus:ring-1 focus:ring-indigo-500/20 transition-all placeholder:text-slate-600"
                                         value={voiceName}
                                         onChange={(e) => setVoiceName(e.target.value)}
                                         placeholder="e.g., Cinematic Narrator" 
@@ -335,49 +335,49 @@ export const VoiceCloning = () => {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex justify-between">
+                                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex justify-between">
                                         Voice Language
                                     </label>
                                     <select 
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500 focus:bg-white/5 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+                                        className="w-full bg-slate-100 dark:bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-indigo-500 focus:bg-white/5 focus:ring-1 focus:ring-indigo-500/20 transition-all"
                                         value={language}
                                         onChange={(e) => setLanguage(e.target.value)}
                                     >
-                                        <option value="English" className="bg-slate-900 text-slate-200">English</option>
-                                        <option value="Spanish" className="bg-slate-900 text-slate-200">Spanish</option>
-                                        <option value="French" className="bg-slate-900 text-slate-200">French</option>
-                                        <option value="German" className="bg-slate-900 text-slate-200">German</option>
-                                        <option value="Italian" className="bg-slate-900 text-slate-200">Italian</option>
-                                        <option value="Portuguese" className="bg-slate-900 text-slate-200">Portuguese</option>
-                                        <option value="Polish" className="bg-slate-900 text-slate-200">Polish</option>
-                                        <option value="Turkish" className="bg-slate-900 text-slate-200">Turkish</option>
-                                        <option value="Russian" className="bg-slate-900 text-slate-200">Russian</option>
-                                        <option value="Dutch" className="bg-slate-900 text-slate-200">Dutch</option>
-                                        <option value="Czech" className="bg-slate-900 text-slate-200">Czech</option>
-                                        <option value="Arabic" className="bg-slate-900 text-slate-200">Arabic</option>
-                                        <option value="Chinese" className="bg-slate-900 text-slate-200">Chinese (Simplified)</option>
-                                        <option value="Japanese" className="bg-slate-900 text-slate-200">Japanese</option>
-                                        <option value="Korean" className="bg-slate-900 text-slate-200">Korean</option>
-                                        <option value="Hindi" className="bg-slate-900 text-slate-200">Hindi</option>
-                                        <option value="Urdu" className="bg-slate-900 text-slate-200">Urdu</option>
+                                        <option value="English" className="bg-white dark:bg-slate-900 text-slate-200">English</option>
+                                        <option value="Spanish" className="bg-white dark:bg-slate-900 text-slate-200">Spanish</option>
+                                        <option value="French" className="bg-white dark:bg-slate-900 text-slate-200">French</option>
+                                        <option value="German" className="bg-white dark:bg-slate-900 text-slate-200">German</option>
+                                        <option value="Italian" className="bg-white dark:bg-slate-900 text-slate-200">Italian</option>
+                                        <option value="Portuguese" className="bg-white dark:bg-slate-900 text-slate-200">Portuguese</option>
+                                        <option value="Polish" className="bg-white dark:bg-slate-900 text-slate-200">Polish</option>
+                                        <option value="Turkish" className="bg-white dark:bg-slate-900 text-slate-200">Turkish</option>
+                                        <option value="Russian" className="bg-white dark:bg-slate-900 text-slate-200">Russian</option>
+                                        <option value="Dutch" className="bg-white dark:bg-slate-900 text-slate-200">Dutch</option>
+                                        <option value="Czech" className="bg-white dark:bg-slate-900 text-slate-200">Czech</option>
+                                        <option value="Arabic" className="bg-white dark:bg-slate-900 text-slate-200">Arabic</option>
+                                        <option value="Chinese" className="bg-white dark:bg-slate-900 text-slate-200">Chinese (Simplified)</option>
+                                        <option value="Japanese" className="bg-white dark:bg-slate-900 text-slate-200">Japanese</option>
+                                        <option value="Korean" className="bg-white dark:bg-slate-900 text-slate-200">Korean</option>
+                                        <option value="Hindi" className="bg-white dark:bg-slate-900 text-slate-200">Hindi</option>
+                                        <option value="Urdu" className="bg-white dark:bg-slate-900 text-slate-200">Urdu</option>
                                     </select>
                                 </div>
 
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-end mb-2">
-                                        <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                                        <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
                                             Reference Sample
                                             <span className="text-[10px] text-indigo-400 normal-case tracking-normal font-medium bg-indigo-500/10 px-1.5 py-0.5 rounded">5-15s ideal</span>
                                         </label>
-                                        <div className="flex bg-slate-900/80 border border-white/5 rounded-lg p-1 shadow-inner">
+                                        <div className="flex bg-white/90 dark:bg-slate-900/80 border border-white/5 rounded-lg p-1 shadow-inner">
                                             <button 
-                                                className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${recordingMode === 'upload' ? 'bg-indigo-500/20 text-indigo-300 shadow-sm ring-1 ring-indigo-500/30' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}
+                                                className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${recordingMode === 'upload' ? 'bg-indigo-500/20 text-indigo-300 shadow-sm ring-1 ring-indigo-500/30' : 'text-slate-600 dark:text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}
                                                 onClick={() => setRecordingMode('upload')}
                                             >
                                                 Upload
                                             </button>
                                             <button 
-                                                className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${recordingMode === 'record' ? 'bg-indigo-500/20 text-indigo-300 shadow-sm ring-1 ring-indigo-500/30' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}
+                                                className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${recordingMode === 'record' ? 'bg-indigo-500/20 text-indigo-300 shadow-sm ring-1 ring-indigo-500/30' : 'text-slate-600 dark:text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}
                                                 onClick={() => setRecordingMode('record')}
                                             >
                                                 Record Live
@@ -390,9 +390,9 @@ export const VoiceCloning = () => {
                                             <div className="absolute inset-0 bg-gradient-to-t from-indigo-500/10 to-transparent opacity-0 group-hover/upload:opacity-100 transition-opacity"></div>
                                             <div className="flex flex-col items-center space-y-2 relative z-10">
                                                 <div className="p-2 bg-white/5 rounded-full group-hover/upload:scale-110 group-hover/upload:bg-indigo-500/20 transition-all duration-300">
-                                                    <UploadCloud className="w-5 h-5 text-slate-400 group-hover/upload:text-indigo-400" />
+                                                    <UploadCloud className="w-5 h-5 text-slate-600 dark:text-slate-400 group-hover/upload:text-indigo-400" />
                                                 </div>
-                                                <span className="font-medium text-slate-300 text-center px-4 text-sm">
+                                                <span className="font-medium text-slate-700 dark:text-slate-300 text-center px-4 text-sm">
                                                     {sampleFile && sampleFile.name !== "recorded_sample.webm" ? (
                                                         <span className="text-indigo-300 font-semibold">{sampleFile.name}</span>
                                                     ) : (
@@ -415,7 +415,7 @@ export const VoiceCloning = () => {
                                                         <CheckCircle size={14} />
                                                         <span className="text-xs font-semibold">Recording Captured ({formatTime(recordingTime)})</span>
                                                     </div>
-                                                    <button onClick={discardRecording} className="text-xs text-slate-400 hover:text-red-400 flex items-center gap-1.5 transition-colors">
+                                                    <button onClick={discardRecording} className="text-xs text-slate-600 dark:text-slate-400 hover:text-red-400 flex items-center gap-1.5 transition-colors">
                                                         <Trash2 size={12} /> Discard & Record Again
                                                     </button>
                                                 </div>
@@ -433,7 +433,7 @@ export const VoiceCloning = () => {
                                                         </div>
                                                     ) : (
                                                         <div className="flex flex-col items-center gap-2">
-                                                            <div className="text-[11px] text-slate-400 text-center max-w-[200px]">
+                                                            <div className="text-[11px] text-slate-600 dark:text-slate-400 text-center max-w-[200px]">
                                                                 Speak clearly into your microphone for 5-15 seconds.
                                                             </div>
                                                             <Button onClick={startRecording} className="bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/30 rounded-full px-5 py-1.5 h-auto text-xs transition-all hover:scale-105">
@@ -448,9 +448,9 @@ export const VoiceCloning = () => {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Test Phrase</label>
+                                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Test Phrase</label>
                                     <textarea 
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-indigo-500 focus:bg-white/5 focus:ring-1 focus:ring-indigo-500/20 transition-all resize-none placeholder:text-slate-600"
+                                        className="w-full bg-slate-100 dark:bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-indigo-500 focus:bg-white/5 focus:ring-1 focus:ring-indigo-500/20 transition-all resize-none placeholder:text-slate-600"
                                         value={text}
                                         onChange={(e) => setText(e.target.value)}
                                         placeholder="The quick brown fox jumps over the lazy dog..."
@@ -460,19 +460,19 @@ export const VoiceCloning = () => {
 
                                 <div className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors cursor-pointer" onClick={() => setSaveToLibrary(!saveToLibrary)}>
                                     <div className={`mt-0.5 flex items-center justify-center w-4 h-4 rounded border transition-all ${saveToLibrary ? 'bg-indigo-500 border-indigo-500' : 'bg-black/50 border-white/20'}`}>
-                                        {saveToLibrary && <Check size={12} className="text-white" />}
+                                        {saveToLibrary && <Check size={12} className="text-slate-900 dark:text-white" />}
                                     </div>
                                     <div className="flex flex-col">
                                         <div className="text-[12px] font-semibold text-slate-200 select-none">Add to Voice Library</div>
-                                        <div className="text-[10px] text-slate-400 leading-tight select-none mt-0.5">Save this voice to your permanent library. If unchecked, it will be hidden after you leave the studio.</div>
+                                        <div className="text-[10px] text-slate-600 dark:text-slate-400 leading-tight select-none mt-0.5">Save this voice to your permanent library. If unchecked, it will be hidden after you leave the studio.</div>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border border-white/10 hover:bg-white/10 transition-colors cursor-pointer" onClick={() => setConsent(!consent)}>
                                     <div className={`mt-0.5 flex items-center justify-center w-4 h-4 rounded border transition-all ${consent ? 'bg-indigo-500 border-indigo-500' : 'bg-black/50 border-white/20'}`}>
-                                        {consent && <Check size={12} className="text-white" />}
+                                        {consent && <Check size={12} className="text-slate-900 dark:text-white" />}
                                     </div>
-                                    <div className="text-[11px] text-slate-400 leading-tight select-none mt-0.5">
+                                    <div className="text-[11px] text-slate-600 dark:text-slate-400 leading-tight select-none mt-0.5">
                                         I confirm that I have the legal right to clone this voice and I agree to the <span className="text-indigo-400 hover:underline">Terms of Service</span>.
                                     </div>
                                 </div>
@@ -484,7 +484,7 @@ export const VoiceCloning = () => {
                                 )}
 
                                 <Button 
-                                    className="w-full py-3 text-sm font-semibold shadow-[0_0_20px_rgba(99,102,241,0.2)] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400 text-white rounded-lg transform transition-all hover:scale-[1.02] active:scale-[0.98] border-0"
+                                    className="w-full py-3 text-sm font-semibold shadow-[0_0_20px_rgba(99,102,241,0.2)] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400 text-slate-900 dark:text-white rounded-lg transform transition-all hover:scale-[1.02] active:scale-[0.98] border-0"
                                     onClick={(e) => { e.stopPropagation(); handleGeneratePreview(); }}
                                     disabled={isGenerating || !sampleFile || !text || !voiceName || !consent}
                                 >
@@ -512,18 +512,18 @@ export const VoiceCloning = () => {
                                             <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
                                             <div className="absolute inset-1 border-2 border-t-indigo-500 border-r-purple-500 border-b-pink-500 border-l-transparent rounded-full animate-spin"></div>
                                             <div className="absolute inset-2.5 border-2 border-t-transparent border-r-indigo-400 border-b-purple-400 border-l-pink-400 rounded-full animate-spin animation-delay-500 direction-reverse"></div>
-                                            <Mic className="text-white relative z-10" size={24} />
+                                            <Mic className="text-slate-900 dark:text-white relative z-10" size={24} />
                                         </div>
                                         
                                         <div className="space-y-2">
                                             <h3 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">Processing Latent Space...</h3>
-                                            <p className="text-slate-400 text-xs leading-relaxed">
+                                            <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
                                                 Extracting acoustic features and timbre profiles. This requires intense computation and may take a few minutes.
                                             </p>
                                         </div>
 
                                         <div className="bg-black/50 px-5 py-3 rounded-xl border border-white/10 shadow-inner w-full flex items-center justify-between">
-                                            <span className="text-slate-400 font-medium uppercase tracking-wider text-[10px]">Elapsed Time</span>
+                                            <span className="text-slate-600 dark:text-slate-400 font-medium uppercase tracking-wider text-[10px]">Elapsed Time</span>
                                             <span className="font-mono text-base text-indigo-400 font-bold tracking-wider">
                                                 {formatTime(elapsedTime)}
                                             </span>
@@ -538,15 +538,15 @@ export const VoiceCloning = () => {
                                             </div>
                                         </div>
                                         
-                                        <h2 className="text-2xl font-bold text-white mb-2">Clone Successful</h2>
-                                        <p className="text-slate-400 text-sm mb-6 max-w-sm">
+                                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Clone Successful</h2>
+                                        <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 max-w-sm">
                                             The voice profile for <strong className="text-indigo-400 font-semibold">{voiceName}</strong> has been extracted and is ready to use.
                                         </p>
                                         
-                                        <div className="w-full bg-black/40 p-5 rounded-2xl border border-white/10 mb-6 space-y-4 shadow-lg relative overflow-hidden">
+                                        <div className="w-full bg-slate-100 dark:bg-black/40 p-5 rounded-2xl border border-white/10 mb-6 space-y-4 shadow-lg relative overflow-hidden">
                                             <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-emerald-500 to-teal-500"></div>
                                             <div className="relative">
-                                                <div className="absolute -top-3 -left-1 text-4xl text-white/5 font-serif">"</div>
+                                                <div className="absolute -top-3 -left-1 text-4xl text-slate-900 dark:text-white/5 font-serif">"</div>
                                                 <p className="text-sm font-medium text-slate-200 leading-relaxed italic relative z-10 px-4">
                                                     {text}
                                                 </p>
@@ -569,32 +569,32 @@ export const VoiceCloning = () => {
                                             {previewId && (
                                                 <>
                                                     <a href={`http://localhost:8000/api/history/${previewId}/download?format=mp3`} className="block">
-                                                        <Button variant="outline" className="w-full py-2.5 flex items-center justify-center gap-1.5 border-white/10 hover:bg-white/10 hover:border-white/20 text-slate-300 rounded-lg text-sm transition-all">
+                                                        <Button variant="outline" className="w-full py-2.5 flex items-center justify-center gap-1.5 border-white/10 hover:bg-white/10 hover:border-white/20 text-slate-700 dark:text-slate-300 rounded-lg text-sm transition-all">
                                                             <Download size={14} /> MP3
                                                         </Button>
                                                     </a>
                                                     <a href={`http://localhost:8000/api/history/${previewId}/download?format=wav`} className="block">
-                                                        <Button variant="outline" className="w-full py-2.5 flex items-center justify-center gap-1.5 border-white/10 hover:bg-white/10 hover:border-white/20 text-slate-300 rounded-lg text-sm transition-all">
+                                                        <Button variant="outline" className="w-full py-2.5 flex items-center justify-center gap-1.5 border-white/10 hover:bg-white/10 hover:border-white/20 text-slate-700 dark:text-slate-300 rounded-lg text-sm transition-all">
                                                             <Download size={14} /> WAV
                                                         </Button>
                                                     </a>
                                                 </>
                                             )}
-                                            <Button className="py-2.5 flex items-center justify-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)] border-0 text-sm" onClick={() => window.location.href = '/studio'}>
+                                            <Button className="py-2.5 flex items-center justify-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-900 dark:text-white rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)] border-0 text-sm" onClick={() => window.location.href = '/studio'}>
                                                 <Play size={14} /> Open Studio
                                             </Button>
                                         </div>
                                     </motion.div>
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center text-slate-500 space-y-4 w-full max-w-sm relative">
+                                    <div className="flex flex-col items-center justify-center text-slate-500 dark:text-slate-500 space-y-4 w-full max-w-sm relative">
                                         <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center relative shadow-[inset_0_0_15px_rgba(255,255,255,0.01)]">
                                             <div className="absolute inset-0 rounded-full border border-white/5 scale-110"></div>
                                             <div className="absolute inset-0 rounded-full border border-white/5 scale-125 opacity-30"></div>
                                             <Mic size={32} className="opacity-40" />
                                         </div>
                                         <div className="space-y-1">
-                                            <h3 className="text-lg font-bold text-slate-300 tracking-wide">Awaiting Input</h3>
-                                            <p className="text-sm text-slate-500 leading-relaxed max-w-xs mx-auto">
+                                            <h3 className="text-lg font-bold text-slate-700 dark:text-slate-300 tracking-wide">Awaiting Input</h3>
+                                            <p className="text-sm text-slate-500 dark:text-slate-500 leading-relaxed max-w-xs mx-auto">
                                                 Provide an audio sample and configure your target voice parameters.
                                             </p>
                                         </div>

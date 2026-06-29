@@ -304,15 +304,15 @@ export const TtsStudio = () => {
                             <h2 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-200 to-slate-400 tracking-tight">TTS Studio</h2>
                         </div>
                     
-                    <div className="flex bg-slate-900/80 backdrop-blur-md rounded-xl p-1.5 border border-slate-700/80 shadow-inner">
+                    <div className="flex bg-white/90 dark:bg-slate-900/80 backdrop-blur-md rounded-xl p-1.5 border border-slate-300 dark:border-slate-700/80 shadow-inner">
                         <button 
-                            className={`px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${mode === 'short_form' ? 'bg-indigo-600 text-white shadow-[0_0_15px_rgba(79,70,229,0.4)]' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+                            className={`px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${mode === 'short_form' ? 'bg-indigo-600 text-slate-900 dark:text-white shadow-[0_0_15px_rgba(79,70,229,0.4)]' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-800'}`}
                             onClick={() => { setMode('short_form'); setAudioUrl(null); setJobId(null); setJobStatus(null); }}
                         >
                             Short Form
                         </button>
                         <button 
-                            className={`px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${mode === 'long_form' ? 'bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.4)]' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+                            className={`px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${mode === 'long_form' ? 'bg-purple-600 text-slate-900 dark:text-white shadow-[0_0_15px_rgba(147,51,234,0.4)]' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-800'}`}
                             onClick={() => { setMode('long_form'); setAudioUrl(null); setJobId(null); setJobStatus(null); }}
                         >
                             Long Form
@@ -327,10 +327,10 @@ export const TtsStudio = () => {
                     </motion.div>
                 )}
 
-                <Card className="flex-1 flex flex-col p-0 overflow-hidden border border-slate-700/60 shadow-[0_8px_30px_rgb(0,0,0,0.4)] bg-gradient-to-b from-slate-900/90 to-slate-950/90 backdrop-blur-xl rounded-2xl">
-                    <div className="p-4 border-b border-slate-800 flex justify-between items-center flex-wrap gap-3">
+                <Card className="flex-1 flex flex-col p-0 overflow-hidden border border-slate-300 dark:border-slate-700/60 shadow-[0_8px_30px_rgb(0,0,0,0.4)] bg-gradient-to-b from-slate-900/90 to-slate-950/90 backdrop-blur-xl rounded-2xl">
+                    <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center flex-wrap gap-3">
                         <div className="flex items-center gap-4">
-                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Text Input</span>
+                            <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Text Input</span>
                             <label className="flex items-center gap-2 cursor-pointer group">
                                 <div className="relative">
                                     <input 
@@ -339,17 +339,17 @@ export const TtsStudio = () => {
                                         checked={autoTranslate}
                                         onChange={(e) => setAutoTranslate(e.target.checked)}
                                     />
-                                    <div className={`block w-10 h-5 rounded-full transition-colors ${autoTranslate ? (mode === 'long_form' ? 'bg-purple-600 shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'bg-indigo-600 shadow-[0_0_10px_rgba(79,70,229,0.4)]') : 'bg-slate-800 border border-slate-700'}`}></div>
+                                    <div className={`block w-10 h-5 rounded-full transition-colors ${autoTranslate ? (mode === 'long_form' ? 'bg-purple-600 shadow-[0_0_10px_rgba(147,51,234,0.4)]' : 'bg-indigo-600 shadow-[0_0_10px_rgba(79,70,229,0.4)]') : 'bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700'}`}></div>
                                     <div className={`absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform shadow-md ${autoTranslate ? 'translate-x-5' : 'translate-x-0'}`}></div>
                                 </div>
-                                <span className="text-xs font-semibold text-slate-400 group-hover:text-white transition-colors">
+                                <span className="text-xs font-semibold text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:text-white transition-colors">
                                     Auto-Translate
                                 </span>
                             </label>
                         </div>
-                        <div className="text-xs font-mono font-bold bg-slate-900 px-3 py-1.5 rounded-md border border-slate-800 shadow-inner">
+                        <div className="text-xs font-mono font-bold bg-white dark:bg-slate-900 px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-800 shadow-inner">
                             <span className={text.length > maxChars ? 'text-red-400' : 'text-indigo-400'}>{text.length}</span>
-                            <span className="text-slate-500"> / {maxChars} chars</span>
+                            <span className="text-slate-500 dark:text-slate-500"> / {maxChars} chars</span>
                         </div>
                     </div>
                     <textarea 
@@ -359,7 +359,7 @@ export const TtsStudio = () => {
                     ></textarea>
                     
                     {mode === 'long_form' && text.length > 0 && (
-                        <div className="bg-slate-800 p-4 text-sm text-slate-300 border-t border-slate-700 space-y-3">
+                        <div className="bg-slate-100 dark:bg-slate-800 p-4 text-sm text-slate-700 dark:text-slate-300 border-t border-slate-300 dark:border-slate-700 space-y-3">
                             <div className="flex flex-wrap gap-6">
                                 <div className="flex items-center gap-2">
                                     <Clock size={16} className="text-purple-400" />
@@ -402,7 +402,7 @@ export const TtsStudio = () => {
                                                     setText(cleanText);
                                                     toast.success("Script cleaned!");
                                                 }}
-                                                className="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded transition-colors"
+                                                className="bg-amber-600 hover:bg-amber-500 text-slate-900 dark:text-white px-3 py-1.5 rounded transition-colors"
                                             >
                                                 Clean Script for TTS
                                             </button>
@@ -418,9 +418,9 @@ export const TtsStudio = () => {
                 {mode === 'long_form' && jobStatus && (
                     <AnimatePresence>
                         <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
-                            <Card className="bg-slate-900 border-purple-500/30 mb-6">
+                            <Card className="bg-white dark:bg-slate-900 border-purple-500/30 mb-6">
                                 <div className="flex justify-between items-center mb-3">
-                                    <h3 className="font-bold text-lg text-white flex items-center gap-2">
+                                    <h3 className="font-bold text-lg text-slate-900 dark:text-white flex items-center gap-2">
                                         {jobStatus.status === 'completed' ? 'Generation Complete' : 'Generation in Progress'}
                                         {jobStatus.status !== 'completed' && jobStatus.status !== 'failed' && <Loader2 size={16} className="animate-spin text-purple-400" />}
                                     </h3>
@@ -432,7 +432,7 @@ export const TtsStudio = () => {
                                     </span>
                                 </div>
                                 
-                                <div className="w-full bg-slate-800 rounded-full h-2.5 mb-4 overflow-hidden">
+                                <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2.5 mb-4 overflow-hidden">
                                     <motion.div 
                                         className={`h-2.5 rounded-full ${jobStatus.status === 'failed' ? 'bg-red-500' : 'bg-purple-600'}`}
                                         initial={{ width: 0 }}
@@ -441,7 +441,7 @@ export const TtsStudio = () => {
                                     ></motion.div>
                                 </div>
                                 
-                                <div className="flex justify-between text-sm text-slate-400">
+                                <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
                                     <span className="capitalize">{jobStatus.status || 'pending'}...</span>
                                     <span>Chunk {jobStatus.completed_chunks || 0} / {jobStatus.total_chunks || 1}</span>
                                 </div>
@@ -463,7 +463,7 @@ export const TtsStudio = () => {
                         initial={{ opacity: 0, scale: 0.95 }} 
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="relative overflow-hidden flex flex-col items-center justify-center p-12 bg-slate-900 border border-indigo-500/30 rounded-xl shadow-2xl mb-6 text-indigo-400 group"
+                        className="relative overflow-hidden flex flex-col items-center justify-center p-12 bg-white dark:bg-slate-900 border border-indigo-500/30 rounded-xl shadow-2xl mb-6 text-indigo-400 group"
                     >
                         {/* Animated background glow */}
                         <motion.div 
@@ -473,8 +473,8 @@ export const TtsStudio = () => {
                         />
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 animate-pulse"></div>
                         <Loader2 size={40} className="animate-spin mb-4 text-indigo-300 drop-shadow-md z-10" />
-                        <h3 className="font-bold text-xl text-white mb-2 z-10">Synthesizing Audio</h3>
-                        <span className="font-medium text-slate-400 z-10">Hold tight... {formatTime(elapsedTime)} elapsed</span>
+                        <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2 z-10">Synthesizing Audio</h3>
+                        <span className="font-medium text-slate-600 dark:text-slate-400 z-10">Hold tight... {formatTime(elapsedTime)} elapsed</span>
                     </motion.div>
                 )}
 
@@ -492,7 +492,7 @@ export const TtsStudio = () => {
                             <div className="flex flex-col sm:flex-row items-center gap-4">
                                 <audio controls src={audioUrl} className="w-full"></audio>
                                 <div className="flex gap-2">
-                                    <a href={audioUrl} download className={`flex items-center gap-2 px-4 py-2 rounded-md text-white font-medium whitespace-nowrap transition-colors ${mode === 'long_form' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}>
+                                    <a href={audioUrl} download className={`flex items-center gap-2 px-4 py-2 rounded-md text-slate-900 dark:text-white font-medium whitespace-nowrap transition-colors ${mode === 'long_form' ? 'bg-purple-600 hover:bg-purple-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}>
                                         <Download size={18} /> MP3
                                     </a>
                                 </div>
@@ -503,13 +503,13 @@ export const TtsStudio = () => {
             </div>
             
             <div className="w-full lg:w-80 flex-shrink-0 relative z-10">
-                <Card className="sticky top-8 flex flex-col gap-6 shadow-[0_8px_30px_rgb(0,0,0,0.4)] border border-slate-700/60 bg-gradient-to-b from-slate-900/95 to-slate-950/95 backdrop-blur-xl rounded-2xl">
+                <Card className="sticky top-8 flex flex-col gap-6 shadow-[0_8px_30px_rgb(0,0,0,0.4)] border border-slate-300 dark:border-slate-700/60 bg-gradient-to-b from-slate-900/95 to-slate-950/95 backdrop-blur-xl rounded-2xl">
                     <div>
-                        <h3 className="font-extrabold text-xl text-white tracking-tight mb-5 flex items-center gap-2"><Settings size={18} className="text-indigo-400"/> Voice Settings</h3>
+                        <h3 className="font-extrabold text-xl text-slate-900 dark:text-white tracking-tight mb-5 flex items-center gap-2"><Settings size={18} className="text-indigo-400"/> Voice Settings</h3>
                         
-                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">1. Language</label>
+                        <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">1. Language</label>
                         <select 
-                            className="w-full bg-slate-900/60 border border-slate-700/60 rounded-xl p-3 text-white text-sm mb-5 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all shadow-inner"
+                            className="w-full bg-white/90 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-700/60 rounded-xl p-3 text-slate-900 dark:text-white text-sm mb-5 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all shadow-inner"
                             value={selectedLanguage} onChange={handleLanguageChange}
                         >
                             <option value="">All Languages</option>
@@ -518,9 +518,9 @@ export const TtsStudio = () => {
                             ))}
                         </select>
 
-                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">2. Content Type (Optional)</label>
+                        <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">2. Content Type (Optional)</label>
                         <select 
-                            className="w-full bg-slate-900/60 border border-slate-700/60 rounded-xl p-3 text-white text-sm mb-5 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all shadow-inner"
+                            className="w-full bg-white/90 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-700/60 rounded-xl p-3 text-slate-900 dark:text-white text-sm mb-5 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all shadow-inner"
                             value={selectedUseCase} onChange={handleUseCaseChange}
                         >
                             <option value="">Any Content Type</option>
@@ -529,12 +529,12 @@ export const TtsStudio = () => {
                             ))}
                         </select>
 
-                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
+                        <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
                             <span>3. Select Voice</span>
                             {selectedUseCase && <span className="text-[10px] text-emerald-400/80 font-medium normal-case">(Sorted by fit)</span>}
                         </label>
                         <select 
-                            className="w-full bg-slate-900/60 border border-slate-700/60 rounded-xl p-3 text-white text-sm mb-4 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all shadow-inner"
+                            className="w-full bg-white/90 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-700/60 rounded-xl p-3 text-slate-900 dark:text-white text-sm mb-4 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none transition-all shadow-inner"
                             value={selectedVoice?.id || ''} onChange={handleVoiceChange}
                         >
                             {(() => {
@@ -577,27 +577,27 @@ export const TtsStudio = () => {
                         </select>
                         
                         {selectedVoice && (
-                            <div className={`rounded-lg p-3 border transition-colors shadow-inner ${isRecommended ? 'bg-emerald-900/10 border-emerald-500/30' : 'bg-slate-900 border-slate-800'}`}>
+                            <div className={`rounded-lg p-3 border transition-colors shadow-inner ${isRecommended ? 'bg-emerald-900/10 border-emerald-500/30' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800'}`}>
                                 <div className="flex justify-between items-center mb-2">
-                                    <span className="font-medium text-white flex items-center gap-2">
+                                    <span className="font-medium text-slate-900 dark:text-white flex items-center gap-2">
                                         {selectedVoice.name}
                                         {isRecommended && <Sparkles size={14} className="text-emerald-400" />}
                                     </span>
                                     <button 
                                         onClick={handlePlayPreview}
                                         disabled={previewLoading}
-                                        className="text-indigo-400 hover:text-indigo-300 p-1.5 rounded hover:bg-slate-800 transition-colors"
+                                        className="text-indigo-400 hover:text-indigo-300 p-1.5 rounded hover:bg-slate-100 dark:bg-slate-800 transition-colors"
                                         title="Preview Voice"
                                     >
                                         {previewLoading ? <Loader2 size={16} className="animate-spin" /> : 
                                          playingId === 'preview' ? <Square size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}
                                     </button>
                                 </div>
-                                <div className="text-xs text-slate-400 flex flex-wrap gap-1.5 mb-2">
-                                    <span className="bg-slate-800 border border-slate-700 px-2 py-0.5 rounded">{selectedVoice.gender}</span>
-                                    <span className="bg-slate-800 border border-slate-700 px-2 py-0.5 rounded">{selectedVoice.accent || selectedVoice.locale}</span>
-                                    <span className="bg-slate-800 border border-slate-700 px-2 py-0.5 rounded">{selectedVoice.engine === 'piper' ? 'Local' : selectedVoice.engine === 'coqui' ? 'Coqui' : 'Online'}</span>
-                                    <span className="bg-slate-800 border border-slate-700 px-2 py-0.5 rounded text-indigo-300">{selectedVoice.quality_label}</span>
+                                <div className="text-xs text-slate-600 dark:text-slate-400 flex flex-wrap gap-1.5 mb-2">
+                                    <span className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2 py-0.5 rounded">{selectedVoice.gender}</span>
+                                    <span className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2 py-0.5 rounded">{selectedVoice.accent || selectedVoice.locale}</span>
+                                    <span className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2 py-0.5 rounded">{selectedVoice.engine === 'piper' ? 'Local' : selectedVoice.engine === 'coqui' ? 'Coqui' : 'Online'}</span>
+                                    <span className="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2 py-0.5 rounded text-indigo-300">{selectedVoice.quality_label}</span>
                                 </div>
                                 {isRecommended && (
                                     <div className="text-[11px] text-emerald-400/80 mt-1">
@@ -608,8 +608,8 @@ export const TtsStudio = () => {
                         )}
                     </div>
                     
-                    <div className="pt-4 border-t border-slate-800">
-                        <label className="flex justify-between text-sm text-slate-400 mb-2">
+                    <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
+                        <label className="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-2">
                             <span>Speed</span>
                             <span className="text-indigo-400 font-mono">{speed.toFixed(2)}x</span>
                         </label>
@@ -621,9 +621,9 @@ export const TtsStudio = () => {
                             />
                             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-0.5 h-3 bg-slate-600 rounded pointer-events-none z-0"></div>
                         </div>
-                        <div className="flex justify-between text-xs text-slate-500 mt-2">
+                        <div className="flex justify-between text-xs text-slate-500 dark:text-slate-500 mt-2">
                             <span>0.5x</span>
-                            <span className="text-center font-medium text-slate-400">Normal</span>
+                            <span className="text-center font-medium text-slate-600 dark:text-slate-400">Normal</span>
                             <span>1.5x</span>
                         </div>
                     </div>
@@ -635,9 +635,9 @@ export const TtsStudio = () => {
                             onClick={handleGenerate} 
                             disabled={loading || !text || (mode === 'long_form' && jobStatus && jobStatus.status !== 'completed' && jobStatus.status !== 'failed')} 
                             className={`w-full py-4 text-lg font-bold flex items-center justify-center gap-2 transition-all rounded-md shadow-lg overflow-hidden relative ${
-                                loading || !text ? 'bg-slate-700 text-slate-400 cursor-not-allowed' : 
-                                mode === 'long_form' ? 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white hover:shadow-purple-500/25' : 
-                                'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white hover:shadow-indigo-500/25'
+                                loading || !text ? 'bg-slate-700 text-slate-600 dark:text-slate-400 cursor-not-allowed' : 
+                                mode === 'long_form' ? 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-slate-900 dark:text-white hover:shadow-purple-500/25' : 
+                                'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-slate-900 dark:text-white hover:shadow-indigo-500/25'
                             }`}
                         >
                             {/* Shiny overlay effect on hover */}
@@ -649,7 +649,7 @@ export const TtsStudio = () => {
                                 {loading ? (mode === 'long_form' ? 'Processing...' : 'Generating...') : (mode === 'long_form' ? 'Generate Long Audio' : 'Generate Audio')}
                             </div>
                         </motion.button>
-                        <p className="text-center text-xs text-slate-500 mt-3">
+                        <p className="text-center text-xs text-slate-500 dark:text-slate-500 mt-3">
                             Uses {text.length} characters of your quota
                         </p>
                     </div>
