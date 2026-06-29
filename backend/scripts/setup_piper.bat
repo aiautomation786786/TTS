@@ -35,5 +35,5 @@ powershell -Command "Invoke-WebRequest -Uri '%JSON_URL%' -OutFile '%MODEL_DIR%\e
 echo.
 echo =======================================
 echo Piper TTS Setup Complete!
-echo You can now use Piper offline voices in VoxForge.
+echo You can now use Piper offline voices in the Platform.
 echo =======================================
