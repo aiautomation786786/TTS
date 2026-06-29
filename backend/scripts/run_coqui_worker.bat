@@ -18,4 +18,3 @@ cd "%WORKER_DIR%"
 
 echo Starting worker on port 8001...
 "venv_clone\Scripts\python.exe" -m uvicorn app:app --host 127.0.0.1 --port 8001
-pause
