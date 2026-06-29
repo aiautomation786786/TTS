@@ -359,7 +359,7 @@ export const History = () => {
 
             {/* Professional Delete Confirmation Modal */}
             <AnimatePresence>
-                {itemToDelete && (
+                {itemsToDelete.length > 0 && (
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -377,8 +377,8 @@ export const History = () => {
                                     <Trash2 className="text-red-400" size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-white mb-1">Delete Generation</h3>
-                                    <p className="text-slate-400 text-sm">Are you sure you want to permanently delete this audio? This action cannot be undone.</p>
+                                    <h3 className="text-xl font-bold text-white mb-1">Delete {itemsToDelete.length > 1 ? `${itemsToDelete.length} Generations` : 'Generation'}</h3>
+                                    <p className="text-slate-400 text-sm">Are you sure you want to permanently delete {itemsToDelete.length > 1 ? `these ${itemsToDelete.length} items` : 'this audio'}? This action cannot be undone.</p>
                                 </div>
                             </div>
                             <div className="flex justify-end gap-3 mt-6">
