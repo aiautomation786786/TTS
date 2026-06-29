@@ -185,8 +185,8 @@ def get_real_edge_voices():
             name_part = voice_id.split('-')[-1].replace('Neural', '')
             if name_part != 'Multilingual':
                 name_part = name_part.replace('Multilingual', '')
-            if not name_part:
-                name_part = "Unknown"
+            if not name_part or name_part.lower() == "unknown":
+                name_part = f"{language} Voice"
             
             if 'Multilingual' in voice_id and any(v['name'] == name_part for v in voices):
                 continue

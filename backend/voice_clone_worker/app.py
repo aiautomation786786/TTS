@@ -33,6 +33,7 @@ try:
     torch.load = _patched_load
 
     cuda_available = torch.cuda.is_available()
+    mps_available = hasattr(torch.backends, "mps") and torch.backends.mps.is_available()
     from TTS.api import TTS
     
     print("Loading XTTS Model (this may take a minute)...")
@@ -147,7 +148,8 @@ def clone_voice(
         if tts_engine is True:
             from TTS.api import TTS
             print("Lazy Loading XTTS Model...")
-            tts_engine = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to("cuda" if cuda_available else "cpu")
+            target_device = "cuda" if cuda_available else "mps" if mps_available else "cpu"
+            tts_engine = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(target_device)
             model_loaded = True
             
         # Pass the list of chunk paths to XTTS for Latent Averaging

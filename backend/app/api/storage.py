@@ -45,11 +45,6 @@ async def get_storage_stats(current_user = Depends(get_current_user)):
     history_size, history_count = get_dir_size(settings.OUTPUT_DIR)
     stats["history"] = {"size_bytes": history_size, "file_count": history_count, "label": "Audio History", "desc": "Generated audio files (.wav)"}
     
-    # Models
-    models_path = "./models/piper"
-    models_size, models_count = get_dir_size(models_path)
-    stats["models"] = {"size_bytes": models_size, "file_count": models_count, "label": "Voice Models", "desc": "Downloaded standard voices"}
-    
     # Uploads (Clone References)
     uploads_size, uploads_count = get_dir_size(settings.UPLOAD_DIR)
     stats["uploads"] = {"size_bytes": uploads_size, "file_count": uploads_count, "label": "Clone Uploads", "desc": "Reference audio used for cloning"}
@@ -70,10 +65,6 @@ async def clear_storage(request: StorageClearRequest, db: Session = Depends(get_
         db.commit()
         cleared.append("history")
         
-    if "models" in request.categories:
-        clear_dir("./models/piper")
-        cleared.append("models")
-        
     if "uploads" in request.categories:
         clear_dir(settings.UPLOAD_DIR)
         cleared.append("uploads")
@@ -92,8 +83,6 @@ async def get_category_files(category: str, current_user = Depends(get_current_u
     path = ""
     if category == "history":
         path = settings.OUTPUT_DIR
-    elif category == "models":
-        path = "./models/piper"
     elif category == "uploads":
         path = settings.UPLOAD_DIR
     elif category == "temp":
@@ -127,8 +116,6 @@ async def clear_category_files(category: str, request: StorageClearFilesRequest,
     base_path = ""
     if category == "history":
         base_path = settings.OUTPUT_DIR
-    elif category == "models":
-        base_path = "./models/piper"
     elif category == "uploads":
         base_path = settings.UPLOAD_DIR
     elif category == "temp":
