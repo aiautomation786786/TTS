@@ -8,6 +8,7 @@ import { TtsStudio } from './pages/TtsStudio';
 import { VoiceLibrary } from './pages/VoiceLibrary';
 import { VoiceCloning } from './pages/VoiceCloning';
 import { History } from './pages/History';
+import { StorageManager } from './pages/StorageManager';
 
 export const App = () => {
     return (
@@ -21,6 +22,7 @@ export const App = () => {
                     <Route path="/voices" element={<VoiceLibrary />} />
                     <Route path="/clone" element={<VoiceCloning />} />
                     <Route path="/history" element={<History />} />
+                    <Route path="/storage" element={<StorageManager />} />
                 </Route>
                 
                 {/* Fallback */}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Mic, BookOpen, Clock, Activity, Loader2 } from 'lucide-react';
+import { LayoutDashboard, Mic, BookOpen, Clock, Activity, Loader2, HardDrive } from 'lucide-react';
 import client from '../../api/client';
 
 export const Sidebar = () => {
@@ -29,7 +29,8 @@ export const Sidebar = () => {
         { path: '/studio', icon: <Mic size={20} />, label: 'TTS Studio' },
         { path: '/voices', icon: <BookOpen size={20} />, label: 'Voice Library' },
         { path: '/clone', icon: <Activity size={20} />, label: 'Voice Cloning' },
-        { path: '/history', icon: <Clock size={20} />, label: 'History' }
+        { path: '/history', icon: <Clock size={20} />, label: 'History' },
+        { path: '/storage', icon: <HardDrive size={20} />, label: 'Storage Manager' }
     ];
 
     return (

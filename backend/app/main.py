@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from .config import get_settings
 from .database import init_db
-from .api import auth, tts, voices, history, users, admin, presets, notifications
+from .api import auth, tts, voices, history, users, admin, presets, notifications, storage
 
 settings = get_settings()
 
@@ -28,6 +28,7 @@ app.include_router(admin.router)
 
 app.include_router(presets.router)
 app.include_router(notifications.router)
+app.include_router(storage.router)
 
 @app.on_event("startup")
 async def startup_event():
