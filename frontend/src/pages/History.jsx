@@ -13,7 +13,9 @@ export const History = () => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [total, setTotal] = useState(0);
+    const [itemToDelete, setItemToDelete] = useState(null);
 
+    const page = parseInt(searchParams.get('page')) || 1;
     // Filters
     const mode = searchParams.get('mode');
     const [showFavorites, setShowFavorites] = useState(false);
@@ -39,8 +41,14 @@ export const History = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm("Delete this audio generation?")) return;
+    const handleDeleteClick = (id) => {
+        setItemToDelete(id);
+    };
+
+    const confirmDelete = async () => {
+        if (!itemToDelete) return;
+        const id = itemToDelete;
+        setItemToDelete(null);
         try {
             await deleteGeneration(id);
             setHistory(history.filter(g => g.id !== id));
@@ -48,6 +56,10 @@ export const History = () => {
         } catch (err) {
             toast.error("Failed to delete");
         }
+    };
+
+    const cancelDelete = () => {
+        setItemToDelete(null);
     };
 
     const handleRetry = async (id) => {
@@ -214,8 +226,12 @@ export const History = () => {
                                                 <a href={`http://localhost:8000/api/history/${gen.id}/download?format=wav`} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-purple-500 hover:text-white border border-white/10 hover:border-purple-400 text-slate-400 rounded-lg transition-all shadow-sm" title="Download WAV">
                                                     <Download size={16} />
                                                 </a>
-                                                <button onClick={() => handleDelete(gen.id)} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-red-500 hover:text-white border border-white/10 hover:border-red-400 text-slate-400 rounded-lg transition-all shadow-sm" title="Delete">
-                                                    <Trash2 size={16} />
+                                                <button 
+                                                    onClick={() => handleDeleteClick(gen.id)}
+                                                    className="p-2.5 bg-slate-800/80 hover:bg-red-500/20 text-slate-400 hover:text-red-400 rounded-xl transition-all border border-slate-700 hover:border-red-500/50 shadow-sm group"
+                                                    title="Delete"
+                                                >
+                                                    <Trash2 size={16} className="group-hover:scale-110 transition-transform" />
                                                 </button>
                                             </div>
                                         </>
@@ -236,7 +252,7 @@ export const History = () => {
                                                         <RefreshCw size={16} />
                                                     </button>
                                                 )}
-                                                <button onClick={() => handleDelete(gen.id)} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-red-500 hover:text-white border border-white/10 hover:border-red-400 text-slate-400 rounded-lg transition-all shadow-sm" title="Delete">
+                                                <button onClick={() => handleDeleteClick(gen.id)} className="w-9 h-9 flex items-center justify-center bg-white/5 hover:bg-red-500 hover:text-white border border-white/10 hover:border-red-400 text-slate-400 rounded-lg transition-all shadow-sm" title="Delete">
                                                     <Trash2 size={16} />
                                                 </button>
                                             </div>
@@ -268,6 +284,39 @@ export const History = () => {
                     ))}
                 </motion.div>
             )}
+
+            {/* Professional Delete Confirmation Modal */}
+            <AnimatePresence>
+                {itemToDelete && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+                    >
+                        <motion.div 
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            className="bg-slate-900 border border-slate-700/60 rounded-2xl p-6 max-w-md w-full shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]"
+                        >
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0 border border-red-500/20">
+                                    <Trash2 className="text-red-400" size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-white mb-1">Delete Generation</h3>
+                                    <p className="text-slate-400 text-sm">Are you sure you want to permanently delete this audio? This action cannot be undone.</p>
+                                </div>
+                            </div>
+                            <div className="flex justify-end gap-3 mt-6">
+                                <Button variant="secondary" onClick={cancelDelete} className="px-5">Cancel</Button>
+                                <Button onClick={confirmDelete} className="px-5 bg-red-500 hover:bg-red-600 text-white border-red-600 shadow-[0_0_15px_rgba(239,68,68,0.3)]">Yes, Delete</Button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
