@@ -83,3 +83,80 @@ async def clear_storage(request: StorageClearRequest, db: Session = Depends(get_
         cleared.append("temp")
         
     return {"message": "Storage cleared successfully", "cleared": cleared}
+
+class StorageClearFilesRequest(BaseModel):
+    files: List[str]
+
+@router.get("/{category}/files")
+async def get_category_files(category: str, current_user = Depends(get_current_user)):
+    path = ""
+    if category == "history":
+        path = settings.OUTPUT_DIR
+    elif category == "models":
+        path = "./models/piper"
+    elif category == "uploads":
+        path = settings.UPLOAD_DIR
+    elif category == "temp":
+        path = settings.TEMP_CHUNK_DIR
+    else:
+        return {"files": []}
+
+    files_list = []
+    if os.path.exists(path):
+        for root, _, filenames in os.walk(path):
+            for f in filenames:
+                fp = os.path.join(root, f)
+                if not os.path.islink(fp):
+                    try:
+                        stat = os.stat(fp)
+                        rel_path = os.path.relpath(fp, path)
+                        # Replace backslashes with forward slashes for safety
+                        rel_path = rel_path.replace("\\", "/")
+                        files_list.append({
+                            "id": rel_path,
+                            "name": f,
+                            "size_bytes": stat.st_size,
+                            "modified_at": stat.st_mtime
+                        })
+                    except Exception:
+                        pass
+    return {"files": files_list}
+
+@router.post("/{category}/clear_files")
+async def clear_category_files(category: str, request: StorageClearFilesRequest, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    base_path = ""
+    if category == "history":
+        base_path = settings.OUTPUT_DIR
+    elif category == "models":
+        base_path = "./models/piper"
+    elif category == "uploads":
+        base_path = settings.UPLOAD_DIR
+    elif category == "temp":
+        base_path = settings.TEMP_CHUNK_DIR
+    else:
+        return {"message": "Invalid category"}
+
+    if not os.path.exists(base_path):
+        return {"message": "Nothing to clear"}
+
+    deleted = 0
+    for file_id in request.files:
+        if ".." in file_id or file_id.startswith("/") or file_id.startswith("\\"):
+            continue
+        
+        target_path = os.path.join(base_path, file_id)
+        if os.path.exists(target_path) and os.path.isfile(target_path):
+            try:
+                os.unlink(target_path)
+                deleted += 1
+                
+                if category == "history":
+                    filename = os.path.basename(target_path)
+                    db.query(Generation).filter(Generation.file_path.endswith(filename)).delete(synchronize_session=False)
+            except Exception:
+                pass
+    
+    if category == "history" and deleted > 0:
+        db.commit()
+        
+    return {"message": f"Deleted {deleted} files"}
