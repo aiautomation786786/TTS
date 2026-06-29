@@ -369,15 +369,15 @@ export const VoiceCloning = () => {
                                             Reference Sample
                                             <span className="text-[10px] text-indigo-400 normal-case tracking-normal font-medium bg-indigo-500/10 px-1.5 py-0.5 rounded">5-15s ideal</span>
                                         </label>
-                                        <div className="flex bg-black/40 border border-white/10 rounded-lg p-0.5">
+                                        <div className="flex bg-slate-900/80 border border-white/5 rounded-lg p-1 shadow-inner">
                                             <button 
-                                                className={`px-3 py-1 text-[10px] font-medium rounded-md transition-all ${recordingMode === 'upload' ? 'bg-indigo-500/20 text-indigo-300 shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
+                                                className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${recordingMode === 'upload' ? 'bg-indigo-500/20 text-indigo-300 shadow-sm ring-1 ring-indigo-500/30' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}
                                                 onClick={() => setRecordingMode('upload')}
                                             >
                                                 Upload
                                             </button>
                                             <button 
-                                                className={`px-3 py-1 text-[10px] font-medium rounded-md transition-all ${recordingMode === 'record' ? 'bg-indigo-500/20 text-indigo-300 shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
+                                                className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${recordingMode === 'record' ? 'bg-indigo-500/20 text-indigo-300 shadow-sm ring-1 ring-indigo-500/30' : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'}`}
                                                 onClick={() => setRecordingMode('record')}
                                             >
                                                 Record Live

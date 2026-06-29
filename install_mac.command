@@ -37,6 +37,7 @@ source venv/bin/activate
 echo "[i] Installing AI Libraries..."
 pip install --upgrade pip
 pip install -r requirements.txt
+python scripts/download_piper.py
 pip install -r voice_clone_worker/requirements.txt
 
 if [ ! -d "venv_clone" ]; then

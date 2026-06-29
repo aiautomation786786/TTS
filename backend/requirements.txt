@@ -11,3 +11,4 @@ aiofiles
 mutagen
 email-validator
 deep-translator
+piper-tts

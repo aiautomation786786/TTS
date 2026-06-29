@@ -1,33 +1,26 @@
 import urllib.request
-import zipfile
 import os
-import shutil
 
-print("Downloading Piper...")
-url = "https://github.com/rhasspy/piper/releases/download/2023.11.14-2/piper_windows_amd64.zip"
-zip_path = "piper.zip"
-model_dir = r"D:\TTS\backend\models\piper"
-
+print("Downloading Piper Default Voices...")
+model_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'models', 'piper'))
 os.makedirs(model_dir, exist_ok=True)
-urllib.request.urlretrieve(url, zip_path)
 
-print("Extracting Piper...")
-with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-    zip_ref.extractall(model_dir)
+model_url = "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/lessac/medium/en_US-lessac-medium.onnx"
+json_url = "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json"
 
-# The zip contains a folder called 'piper'. Let's move its contents to model_dir
-piper_extracted_dir = os.path.join(model_dir, "piper")
-if os.path.exists(piper_extracted_dir):
-    for item in os.listdir(piper_extracted_dir):
-        s = os.path.join(piper_extracted_dir, item)
-        d = os.path.join(model_dir, item)
-        if os.path.exists(d):
-            if os.path.isdir(d):
-                shutil.rmtree(d)
-            else:
-                os.remove(d)
-        shutil.move(s, d)
-    shutil.rmtree(piper_extracted_dir)
+model_path = os.path.join(model_dir, "en_US-lessac-medium.onnx")
+json_path = os.path.join(model_dir, "en_US-lessac-medium.onnx.json")
 
-os.remove(zip_path)
-print("Done!")
+if not os.path.exists(model_path):
+    print(f"Downloading {model_url}...")
+    urllib.request.urlretrieve(model_url, model_path)
+else:
+    print("Model already exists.")
+
+if not os.path.exists(json_path):
+    print(f"Downloading {json_url}...")
+    urllib.request.urlretrieve(json_url, json_path)
+else:
+    print("JSON config already exists.")
+
+print("Done! Piper TTS is ready.")
