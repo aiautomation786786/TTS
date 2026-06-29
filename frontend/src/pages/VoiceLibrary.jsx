@@ -4,7 +4,7 @@ import { getVoices, getVoicePreview, deleteClonedVoice } from '../api/voices';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { useAudioPlayer } from '../hooks/useAudioPlayer';
-import { Play, Square, Loader2, Search, Filter, X, Mic, Trash2 } from 'lucide-react';
+import { Play, Square, Loader2, Search, Filter, X, Mic, Trash2, CheckSquare } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getLanguages } from '../api/tts';
@@ -23,7 +23,8 @@ export const VoiceLibrary = () => {
     const [filters, setFilters] = useState({ search: '', gender: '', language: '', category: '', use_case: '', is_cloned: undefined });
     const { playingId, play } = useAudioPlayer();
     const [loadingPreviewId, setLoadingPreviewId] = useState(null);
-    const [voiceToDelete, setVoiceToDelete] = useState(null);
+    const [itemsToDelete, setItemsToDelete] = useState([]);
+    const [selectedVoices, setSelectedVoices] = useState(new Set());
     const [isDeleting, setIsDeleting] = useState(false);
     const navigate = useNavigate();
     const [availableLanguages, setAvailableLanguages] = useState([]);
@@ -49,6 +50,7 @@ export const VoiceLibrary = () => {
         getVoices(params).then(res => {
             const validVoices = res.data.voices.filter(v => v.category !== 'temporary');
             setVoices(validVoices);
+            setSelectedVoices(new Set());
             setLoading(false);
         }).catch(err => {
             toast.error("Failed to load voices.");
@@ -87,22 +89,46 @@ export const VoiceLibrary = () => {
         navigate('/studio', { state: { selectedVoiceId: id } });
     };
 
-    const handleDeleteVoice = (id, name) => {
-        setVoiceToDelete({ id, name });
+    const toggleSelection = (id) => {
+        const newSet = new Set(selectedVoices);
+        if (newSet.has(id)) newSet.delete(id);
+        else newSet.add(id);
+        setSelectedVoices(newSet);
+    };
+
+    const toggleSelectAll = () => {
+        const clonedVoices = voices.filter(v => v.is_cloned);
+        if (selectedVoices.size === clonedVoices.length && clonedVoices.length > 0) {
+            setSelectedVoices(new Set());
+        } else {
+            setSelectedVoices(new Set(clonedVoices.map(v => v.id)));
+        }
+    };
+
+    const handleBulkDeleteClick = () => {
+        setItemsToDelete(Array.from(selectedVoices));
+    };
+
+    const handleDeleteVoice = (id) => {
+        setItemsToDelete([id]);
     };
 
     const confirmDelete = async () => {
-        if (!voiceToDelete) return;
+        if (itemsToDelete.length === 0) return;
         setIsDeleting(true);
         try {
-            await deleteClonedVoice(voiceToDelete.id);
-            toast.success("Voice deleted successfully");
-            setVoices(voices.filter(v => v.id !== voiceToDelete.id));
+            await Promise.all(itemsToDelete.map(id => deleteClonedVoice(id)));
+            toast.success(`Deleted ${itemsToDelete.length} voice(s) successfully`);
+            setVoices(voices.filter(v => !itemsToDelete.includes(v.id)));
+            
+            const newSet = new Set(selectedVoices);
+            itemsToDelete.forEach(id => newSet.delete(id));
+            setSelectedVoices(newSet);
         } catch (err) {
-            toast.error("Failed to delete voice");
+            toast.error("Failed to delete voice(s)");
         } finally {
             setIsDeleting(false);
-            setVoiceToDelete(null);
+            setItemsToDelete([]);
         }
     };
 
@@ -208,10 +234,35 @@ export const VoiceLibrary = () => {
                                 onClick={() => setFilters({...filters, is_cloned: true})} 
                                 className={`px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 ${filters.is_cloned === true ? 'bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.4)] border border-purple-500' : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 hover:border-slate-700'}`}
                             ><Mic size={14}/> My Clones</button>
+                            {filters.is_cloned && voices.some(v => v.is_cloned) && (
+                                <button 
+                                    onClick={toggleSelectAll} 
+                                    className={`px-4 py-2 ml-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 ${selectedVoices.size > 0 ? 'bg-indigo-600 text-white shadow-[0_0_15px_rgba(79,70,229,0.3)] border border-indigo-500' : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 hover:border-slate-700'}`}
+                                >
+                                    {selectedVoices.size === voices.filter(v => v.is_cloned).length && voices.filter(v => v.is_cloned).length > 0 ? <CheckSquare size={14} /> : <Square size={14} />} 
+                                    <span className="hidden sm:inline">{selectedVoices.size === voices.filter(v => v.is_cloned).length && voices.filter(v => v.is_cloned).length > 0 ? 'Deselect All Clones' : 'Select All Clones'}</span>
+                                </button>
+                            )}
                         </div>
                     </div>
                     <span className="text-slate-400 text-sm font-semibold relative z-10 bg-slate-900/50 px-4 py-1.5 rounded-full border border-slate-800 shadow-inner">{voices.length} voices found</span>
                 </div>
+                
+                {/* Bulk Action Bar */}
+                <AnimatePresence>
+                {selectedVoices.size > 0 && (
+                    <motion.div initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -20, scale: 0.95 }} className="sticky top-4 z-50 bg-slate-800/95 backdrop-blur-xl border border-indigo-500/50 p-2 sm:p-3 rounded-2xl shadow-[0_15px_40px_-10px_rgba(79,70,229,0.4)] flex flex-wrap items-center justify-between gap-3 mb-6">
+                        <div className="flex items-center gap-3 px-2">
+                            <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 font-bold border border-indigo-500/30">{selectedVoices.size}</div>
+                            <span className="text-white font-medium text-sm sm:text-base">cloned voices selected</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                            <Button onClick={handleBulkDeleteClick} className="bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 h-9 px-3 text-xs sm:text-sm"><Trash2 size={14} className="mr-1.5" /> <span className="hidden sm:inline">Delete Selected</span></Button>
+                            <button onClick={() => setSelectedVoices(new Set())} className="text-slate-400 hover:text-white h-9 px-2 ml-1 transition-colors"><X size={18} /></button>
+                        </div>
+                    </motion.div>
+                )}
+                </AnimatePresence>
                 
                 <AnimatePresence mode="wait">
                     {showFallbackMessage && (
@@ -242,12 +293,19 @@ export const VoiceLibrary = () => {
                                     <div className="absolute -inset-1 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none"></div>
                                     
                                     <div className="relative z-10 flex justify-between items-start mb-4">
-                                        <div>
-                                            <h3 className="font-extrabold text-xl text-white group-hover:text-indigo-300 transition-colors tracking-tight">{voice.name}</h3>
-                                            <div className="text-xs text-slate-400 flex items-center gap-2 mt-1.5 font-medium">
-                                                <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]"></div> {voice.language}</span> 
-                                                <span className="text-slate-700">•</span>
-                                                <span className="capitalize">{voice.gender}</span>
+                                        <div className="flex gap-3">
+                                            {voice.is_cloned && (
+                                                <button onClick={() => toggleSelection(voice.id)} className={`mt-1 transition-all ${selectedVoices.has(voice.id) ? 'text-indigo-400 scale-110' : 'text-slate-600 hover:text-indigo-400'}`}>
+                                                    {selectedVoices.has(voice.id) ? <CheckSquare size={18} /> : <Square size={18} />}
+                                                </button>
+                                            )}
+                                            <div>
+                                                <h3 className="font-extrabold text-xl text-white group-hover:text-indigo-300 transition-colors tracking-tight">{voice.name}</h3>
+                                                <div className="text-xs text-slate-400 flex items-center gap-2 mt-1.5 font-medium">
+                                                    <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]"></div> {voice.language}</span> 
+                                                    <span className="text-slate-700">•</span>
+                                                    <span className="capitalize">{voice.gender}</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="flex flex-col items-end gap-1.5">
@@ -310,19 +368,19 @@ export const VoiceLibrary = () => {
 
             {/* Premium Delete Confirmation Modal */}
             <AnimatePresence>
-                {voiceToDelete && (
+                {itemsToDelete.length > 0 && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                         <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} className="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-rose-600"></div>
                             <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500/10 text-red-500 mb-5 border border-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.15)]">
                                 <Trash2 size={24} />
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2">Delete Cloned Voice</h3>
+                            <h3 className="text-xl font-bold text-white mb-2">Delete {itemsToDelete.length > 1 ? `${itemsToDelete.length} Voices` : 'Voice'}</h3>
                             <p className="text-slate-400 mb-6 text-sm leading-relaxed">
-                                Are you sure you want to permanently delete <strong className="text-white">"{voiceToDelete.name}"</strong>? This action cannot be undone and all associated voice data will be securely destroyed.
+                                Are you sure you want to permanently delete {itemsToDelete.length > 1 ? `these ${itemsToDelete.length} voices` : "this voice"}? This action cannot be undone and all associated voice data will be securely destroyed.
                             </p>
                             <div className="flex gap-3 justify-end">
-                                <Button variant="secondary" onClick={() => setVoiceToDelete(null)} disabled={isDeleting} className="bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700">Cancel</Button>
+                                <Button variant="secondary" onClick={() => setItemsToDelete([])} disabled={isDeleting} className="bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700">Cancel</Button>
                                 <Button onClick={confirmDelete} disabled={isDeleting} className="bg-red-600 hover:bg-red-500 text-white border-transparent shadow-[0_0_15px_rgba(220,38,38,0.4)] flex items-center gap-2">
                                     {isDeleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
                                     {isDeleting ? 'Deleting...' : 'Yes, Delete Voice'}

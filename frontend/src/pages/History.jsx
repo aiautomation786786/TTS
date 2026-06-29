@@ -4,7 +4,7 @@ import { getHistory, deleteGeneration, toggleFavorite } from '../api/history';
 import { retryLongFormJob } from '../api/tts';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { Download, Clock, Calendar, Heart, Trash2, Filter, Layers, Mic, RefreshCw, AlertCircle, PlayCircle, HardDrive, Zap } from 'lucide-react';
+import { Download, Clock, Calendar, Heart, Trash2, Filter, Layers, Mic, RefreshCw, AlertCircle, PlayCircle, HardDrive, Zap, CheckSquare, Square, X, CheckCircle2, Circle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -13,7 +13,8 @@ export const History = () => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
     const [total, setTotal] = useState(0);
-    const [itemToDelete, setItemToDelete] = useState(null);
+    const [selectedItems, setSelectedItems] = useState(new Set());
+    const [itemsToDelete, setItemsToDelete] = useState([]);
 
     const page = parseInt(searchParams.get('page')) || 1;
     // Filters
@@ -34,6 +35,7 @@ export const History = () => {
             const res = await getHistory(params);
             setHistory(res.data.generations);
             setTotal(res.data.total);
+            setSelectedItems(new Set());
         } catch (err) {
             toast.error("Failed to load history");
         } finally {
@@ -41,25 +43,66 @@ export const History = () => {
         }
     };
 
+    const toggleSelection = (id) => {
+        const newSet = new Set(selectedItems);
+        if (newSet.has(id)) newSet.delete(id);
+        else newSet.add(id);
+        setSelectedItems(newSet);
+    };
+
+    const toggleSelectAll = () => {
+        if (selectedItems.size === history.length && history.length > 0) {
+            setSelectedItems(new Set());
+        } else {
+            setSelectedItems(new Set(history.map(g => g.id)));
+        }
+    };
+
+    const handleBulkDeleteClick = () => {
+        setItemsToDelete(Array.from(selectedItems));
+    };
+
     const handleDeleteClick = (id) => {
-        setItemToDelete(id);
+        setItemsToDelete([id]);
     };
 
     const confirmDelete = async () => {
-        if (!itemToDelete) return;
-        const id = itemToDelete;
-        setItemToDelete(null);
+        if (itemsToDelete.length === 0) return;
+        
         try {
-            await deleteGeneration(id);
-            setHistory(history.filter(g => g.id !== id));
-            toast.success("Deleted successfully");
+            await Promise.all(itemsToDelete.map(id => deleteGeneration(id)));
+            setHistory(history.filter(g => !itemsToDelete.includes(g.id)));
+            
+            const newSet = new Set(selectedItems);
+            itemsToDelete.forEach(id => newSet.delete(id));
+            setSelectedItems(newSet);
+            
+            toast.success(`Deleted ${itemsToDelete.length} item(s)`);
         } catch (err) {
-            toast.error("Failed to delete");
+            toast.error("Failed to delete some items");
+        } finally {
+            setItemsToDelete([]);
         }
     };
 
     const cancelDelete = () => {
-        setItemToDelete(null);
+        setItemsToDelete([]);
+    };
+
+    const handleBulkFavorite = async (makeFavorite) => {
+        if (selectedItems.size === 0) return;
+        try {
+            await Promise.all(Array.from(selectedItems).map(id => toggleFavorite(id, makeFavorite)));
+            setHistory(history.map(g => {
+                if (selectedItems.has(g.id)) {
+                    return {...g, is_favorite: makeFavorite};
+                }
+                return g;
+            }));
+            toast.success(`Updated ${selectedItems.size} item(s)`);
+        } catch (err) {
+            toast.error("Failed to update favorites");
+        }
     };
 
     const handleRetry = async (id) => {
@@ -120,18 +163,44 @@ export const History = () => {
                 
                 <div className="flex items-center gap-3 bg-black/20 p-1.5 rounded-xl border border-white/5 shadow-inner">
                     <button 
+                        onClick={toggleSelectAll} 
+                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${selectedItems.size > 0 ? 'bg-indigo-600 text-white shadow-[0_0_15px_rgba(79,70,229,0.3)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    >
+                        {selectedItems.size === history.length && history.length > 0 ? <CheckSquare size={16} /> : <Square size={16} />} 
+                        <span className="hidden sm:inline">{selectedItems.size === history.length && history.length > 0 ? 'Deselect All' : 'Select All'}</span>
+                    </button>
+                    <div className="w-px h-6 bg-white/10 mx-1"></div>
+                    <button 
                         onClick={() => setShowFavorites(!showFavorites)} 
                         className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${showFavorites ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-[0_0_15px_rgba(236,72,153,0.3)]' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                     >
-                        <Heart size={16} className={showFavorites ? "fill-white" : ""} /> Favorites
+                        <Heart size={16} className={showFavorites ? "fill-white" : ""} /> <span className="hidden sm:inline">Favorites</span>
                     </button>
                     {(mode) && (
                         <button onClick={clearFilters} className="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-2">
-                            <Filter size={16} /> Clear Filters
+                            <Filter size={16} /> <span className="hidden sm:inline">Clear Filters</span>
                         </button>
                     )}
                 </div>
             </header>
+            
+            {/* Bulk Action Bar */}
+            <AnimatePresence>
+            {selectedItems.size > 0 && (
+                <motion.div initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -20, scale: 0.95 }} className="sticky top-4 z-50 bg-slate-800/95 backdrop-blur-xl border border-indigo-500/50 p-2 sm:p-3 rounded-2xl shadow-[0_15px_40px_-10px_rgba(79,70,229,0.4)] flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 px-2">
+                        <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 font-bold border border-indigo-500/30">{selectedItems.size}</div>
+                        <span className="text-white font-medium text-sm sm:text-base">items selected</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        <Button variant="secondary" onClick={() => handleBulkFavorite(true)} className="bg-slate-700 hover:bg-slate-600 border-slate-600 h-9 px-3 text-xs sm:text-sm"><Heart size={14} className="mr-1.5" /> <span className="hidden sm:inline">Favorite</span></Button>
+                        <Button variant="secondary" onClick={() => handleBulkFavorite(false)} className="bg-slate-700 hover:bg-slate-600 border-slate-600 h-9 px-3 text-xs sm:text-sm"><X size={14} className="mr-1.5" /> <span className="hidden sm:inline">Unfavorite</span></Button>
+                        <Button onClick={handleBulkDeleteClick} className="bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 h-9 px-3 text-xs sm:text-sm"><Trash2 size={14} className="mr-1.5" /> <span className="hidden sm:inline">Delete Selected</span></Button>
+                        <button onClick={() => setSelectedItems(new Set())} className="text-slate-400 hover:text-white h-9 px-2 ml-1 transition-colors"><X size={18} /></button>
+                    </div>
+                </motion.div>
+            )}
+            </AnimatePresence>
             
             {(mode) && (
                 <div className="flex flex-wrap gap-2 text-sm">
@@ -164,6 +233,9 @@ export const History = () => {
                                 {/* Top Bar */}
                                 <div className="px-5 py-4 border-b border-white/5 flex justify-between items-center bg-black/20">
                                     <div className="flex items-center gap-3">
+                                        <button onClick={() => toggleSelection(gen.id)} className={`transition-all ${selectedItems.has(gen.id) ? 'text-indigo-500 hover:text-indigo-400 scale-110' : 'text-slate-500 hover:text-indigo-400'}`}>
+                                            {selectedItems.has(gen.id) ? <CheckSquare size={18} /> : <Square size={18} />}
+                                        </button>
                                         <button 
                                             onClick={() => handleToggleFavorite(gen.id, gen.is_favorite)}
                                             className="text-slate-500 hover:text-pink-500 hover:scale-110 transition-all"
