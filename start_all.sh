@@ -11,6 +11,12 @@ else
     echo "[OK] Application is already up to date."
 fi
 echo ""
+echo "=============================================================="
+echo "Cleaning up previous application sessions..."
+echo "=============================================================="
+lsof -ti:8000,8001,5173 | xargs kill -9 2>/dev/null || true
+echo "Cleanup complete."
+echo ""
 echo "Starting AI Platform..."
 
 cd backend || exit
