@@ -174,7 +174,7 @@ def get_real_edge_voices():
             parts = line.split()
             if not parts: continue
             voice_id = parts[0]
-            if voice_id == "Name": continue
+            if voice_id == "Name" or voice_id.startswith("---"): continue
             gender = "Male" if "Male" in line else "Female" if "Female" in line else "Unknown"
             
             locale = voice_id.split('-')[0] + "-" + voice_id.split('-')[1] if '-' in voice_id else voice_id
@@ -350,13 +350,11 @@ def seed_or_repair_voices(db: Session):
             db.add(new_voice)
             inserted += 1
             
-    # Mark inactive if engine removed it
+    # Delete if engine removed it
     for v in existing_voices:
-        if v.voice_id not in valid_ids and v.is_active:
-            v.is_active = False
-            v.preview_status = "failed"
-            v.generation_status = "failed"
-            print(f"[WARN] Marking {v.name} inactive: engine missing {v.voice_id}")
+        if v.voice_id not in valid_ids:
+            print(f"[WARN] Deleting {v.name}: engine missing {v.voice_id}")
+            db.delete(v)
             updated += 1
             
     db.commit()
