@@ -16,6 +16,7 @@ os.makedirs("models", exist_ok=True)
 
 # Auto-accept Coqui TOS to prevent EOFError during model download
 os.environ["COQUI_TOS_AGREED"] = "1"
+os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 
 # Global states
 tts_engine = None
@@ -34,6 +35,15 @@ try:
 
     cuda_available = torch.cuda.is_available()
     mps_available = hasattr(torch.backends, "mps") and torch.backends.mps.is_available()
+    import multiprocessing
+    
+    # Maximize CPU threads for PyTorch (Crucial for Mac CPU/MPS performance)
+    try:
+        torch.set_num_threads(multiprocessing.cpu_count())
+        os.environ["OMP_NUM_THREADS"] = str(multiprocessing.cpu_count())
+    except Exception:
+        pass
+        
     from TTS.api import TTS
     
     print("Loading XTTS Model (this may take a minute)...")
@@ -148,7 +158,8 @@ def clone_voice(
         if tts_engine is True:
             from TTS.api import TTS
             print("Lazy Loading XTTS Model...")
-            target_device = "cuda" if cuda_available else "mps" if mps_available else "cpu"
+            # FORCE CPU if not CUDA because MPS has severe performance/kernel issues with Coqui XTTS autoregressive loops
+            target_device = "cuda" if cuda_available else "cpu"
             tts_engine = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(target_device)
             model_loaded = True
             
